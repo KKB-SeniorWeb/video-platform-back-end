@@ -1,6 +1,5 @@
-# hackernews-async-ts
-
-[Hacker News](https://news.ycombinator.com/) showcase using typescript && egg
+# video-platform-back-end
+开课吧视频平台后端
 
 ## QuickStart
 
@@ -31,3 +30,41 @@ $ npm start
 
 - Node.js 8.x
 - Typescript 2.8+
+
+### 配置 eslint
+设置 .settings.json 文件，用以支持自动格式化代码
+```
+
+    "eslint.options": {
+        "extensions": [
+            ".js",
+            ".vue",
+            ".ts",
+            ".tsx"
+        ]
+    },
+    "eslint.validate": [
+        {
+            "language": "html",
+            "autoFix": true
+        },
+        {
+            "language": "vue",
+            "autoFix": true
+        },
+        {
+            "language": "javascript",
+            "autoFix": true
+        },
+        {
+            "language": "javascriptreact",
+            "autoFix": true
+        },
+        {
+            "language": "typescript",
+            "autoFix": true
+        }
+    ],
+    "eslint.enable": true,
+    "eslint.autoFixOnSave": true,
+```

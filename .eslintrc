@@ -1,6 +1,12 @@
 {
-  "extends": "eslint-config-egg/typescript",
-  "parserOptions": {
-    "project": "./tsconfig.json"
-  }
+    "extends": ["eslint-config-egg/typescript", "prettier/@typescript-eslint", "plugin:prettier/recommended"],
+    "parser": "@typescript-eslint/parser",
+    "plugins": ["@typescript-eslint"],
+    "parserOptions": {
+        "project": "./tsconfig.json"
+    },
+    "env": {
+        "browser": true,
+        "node": true
+    }
 }
