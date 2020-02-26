@@ -15,9 +15,42 @@ export default (appInfo: EggAppInfo) => {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`
   };
 
+  const swaggerdoc = {
+    dirScanner: './app/controller',
+    apiInfo: {
+      title: '视频平台后端API',
+      description: '视频平台后端API',
+      version: '1.0.0'
+    },
+    schemes: ['http', 'https'],
+    consumes: ['application/json'],
+    produces: ['application/json'],
+    securityDefinitions: {
+      // apikey: {
+      //   type: 'apiKey',
+      //   name: 'clientkey',
+      //   in: 'header',
+      // },
+      // oauth2: {
+      //   type: 'oauth2',
+      //   tokenUrl: 'http://petstore.swagger.io/oauth/dialog',
+      //   flow: 'password',
+      //   scopes: {
+      //     'write:access_token': 'write access_token',
+      //     'read:access_token': 'read access_token',
+      //   },
+      // },
+    },
+    enableSecurity: false,
+    // enableValidate: true,
+    routerMap: false,
+    enable: true
+  };
+
   // the return config will combines to EggAppConfig
   return {
     ...config,
-    ...bizConfig
+    ...bizConfig,
+    ...swaggerdoc
   };
 };

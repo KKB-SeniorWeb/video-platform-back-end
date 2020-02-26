@@ -31,6 +31,12 @@ $ npm start
 - Node.js 8.x
 - Typescript 2.8+
 
+
+### swagger 
+使用 egg-swagger-doc 来生成对应的 api 文档
+具体使用说明请查看插件文档  [传送门](https://www.npmjs.com/package/egg-swagger-doc)
+
+
 ### 配置 eslint
 设置 .settings.json 文件，用以支持自动格式化代码
 ```
