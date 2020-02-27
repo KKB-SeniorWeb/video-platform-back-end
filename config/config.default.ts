@@ -47,10 +47,20 @@ export default (appInfo: EggAppInfo) => {
     enable: true
   };
 
+  const sequelize = {
+    dialect: 'mysql',
+    host: 'localhost',
+    port: '3306',
+    username: 'root',
+    password: '123456',
+    database: 'video_platform_development'
+  };
+
   // the return config will combines to EggAppConfig
   return {
     ...config,
     ...bizConfig,
-    ...swaggerdoc
+    ...swaggerdoc,
+    sequelize
   };
 };

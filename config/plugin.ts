@@ -9,6 +9,11 @@ const plugin: EggPlugin = {
   swaggerdoc: {
     enable: true,
     package: 'egg-swagger-doc'
+  },
+
+  sequelize: {
+    enable: true,
+    package: 'egg-sequelize'
   }
 };
 

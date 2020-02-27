@@ -1,4 +1,5 @@
 # video-platform-back-end
+
 开课吧视频平台后端
 
 ## QuickStart
@@ -31,14 +32,15 @@ $ npm start
 - Node.js 8.x
 - Typescript 2.8+
 
+### swagger
 
-### swagger 
 使用 egg-swagger-doc 来生成对应的 api 文档
-具体使用说明请查看插件文档  [传送门](https://www.npmjs.com/package/egg-swagger-doc)
-
+具体使用说明请查看插件文档 [传送门](https://www.npmjs.com/package/egg-swagger-doc)
 
 ### 配置 eslint
+
 设置 .settings.json 文件，用以支持自动格式化代码
+
 ```
 
     "eslint.options": {
@@ -74,3 +76,26 @@ $ npm start
     "eslint.enable": true,
     "eslint.autoFixOnSave": true,
 ```
+
+### 初始化数据库
+
+- 设置账号密码：
+
+  - 默认账号密码
+
+    1. username: "root"
+    2. password: "123456"
+
+  - 修改的 config
+
+    1. config/config.default.ts 下的 sequelize 对象
+    2. database/config/config.json
+     > 如果有定制化需求的话后续在处理
+
+- 基于 database/config/config.json 内的配置创建 3 个数据库
+
+  1. video_platform_development 对应开发坏境
+  2. video_platform_production 对应生产坏境
+  3. video_platform_test 对应测试坏境
+
+- 执行 npm run db:migrate 创建表

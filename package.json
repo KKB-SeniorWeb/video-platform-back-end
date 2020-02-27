@@ -20,12 +20,16 @@
     "autod": "autod",
     "lint": "eslint . --fix --ext .ts",
     "clean": "ets clean",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "db:migrate": "cd ./database && npx sequelize db:migrate"
   },
   "dependencies": {
     "egg": "^2.6.1",
+    "egg-mysql": "^3.0.0",
     "egg-scripts": "^2.6.0",
-    "egg-swagger-doc": "^2.3.2"
+    "egg-sequelize": "^5.2.1",
+    "egg-swagger-doc": "^2.3.2",
+    "mysql2": "^2.1.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -49,6 +53,7 @@
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
+    "sequelize-cli": "^5.5.1",
     "tslib": "^1.9.0",
     "typescript": "^3.0.0"
   },
