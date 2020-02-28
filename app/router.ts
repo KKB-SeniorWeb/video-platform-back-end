@@ -1,7 +1,10 @@
 import { Application } from 'egg';
 
-export default (app: Application) => {
+function signRouter(app) {
   const { controller, router } = app;
+  router.post('/signup', controller.signup.index);
+}
 
-  router.get('/', controller.home.index);
+export default (app: Application) => {
+  signRouter(app);
 };

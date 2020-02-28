@@ -11,8 +11,7 @@
     "start": "egg-scripts start --daemon --title=egg-server-video-platform-back-end",
     "stop": "egg-scripts stop --title=egg-server-video-platform-back-end",
     "dev": "egg-bin dev",
-    "debug": "egg-bin debug",
-    "test-local": "egg-bin test",
+    "test-local": "egg-bin test --watch-extensions ts --watch --file ./test/.setup.ts --full-trace",
     "test": "npm run lint -- --fix && npm run test-local",
     "cov": "egg-bin cov",
     "tsc": "ets && tsc -p tsconfig.json",
@@ -21,14 +20,17 @@
     "lint": "eslint . --fix --ext .ts",
     "clean": "ets clean",
     "commit": "git-cz",
-    "db:migrate": "cd ./database && npx sequelize db:migrate"
+    "db:migrate": "cd ./database && npx sequelize db:migrate",
+    "debug": "egg-bin debug"
   },
   "dependencies": {
     "egg": "^2.6.1",
     "egg-scripts": "^2.6.0",
     "egg-sequelize": "^5.2.1",
     "egg-swagger-doc": "^2.3.2",
-    "mysql2": "^2.1.0"
+    "egg-validate": "^2.0.2",
+    "mysql2": "^2.1.0",
+    "uuid": "^7.0.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^8.3.5",
@@ -45,10 +47,12 @@
     "egg-bin": "^4.11.0",
     "egg-ci": "^1.8.0",
     "egg-mock": "^3.16.0",
+    "egg-ts-helper": "^1.25.6",
     "eslint": "^6.8.0",
     "eslint-config-egg": "^8.0.0",
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
+    "factory-girl": "^5.0.4",
     "husky": "^4.2.3",
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",

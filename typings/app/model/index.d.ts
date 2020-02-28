@@ -2,10 +2,10 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
-import ExportSignup from '../../../app/controller/signup';
+import ExportUser from '../../../app/model/user';
 
 declare module 'egg' {
-  interface IController {
-    signup: ExportSignup;
+  interface IModel {
+    User: ReturnType<typeof ExportUser>;
   }
 }
