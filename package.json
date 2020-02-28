@@ -11,7 +11,8 @@
     "start": "egg-scripts start --daemon --title=egg-server-video-platform-back-end",
     "stop": "egg-scripts stop --title=egg-server-video-platform-back-end",
     "dev": "egg-bin dev",
-    "test-local": "egg-bin test --watch-extensions ts --watch --file ./test/.setup.ts --full-trace",
+    "test-local-watch": "egg-bin test --watch-extensions ts --watch --file ./test/.setup.ts --full-trace",
+    "test-local": "egg-bin test --file ./test/.setup.ts --full-trace",
     "test": "npm run lint -- --fix && npm run test-local",
     "cov": "egg-bin cov",
     "tsc": "ets && tsc -p tsconfig.json",
@@ -88,6 +89,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
+      "pre-push":"EGG_SERVER_ENV=test npm run test",
       "commit-msg": "commitlint -e $GIT_PARAMS"
     }
   }
