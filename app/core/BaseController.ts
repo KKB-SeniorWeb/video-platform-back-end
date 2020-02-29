@@ -1,21 +1,21 @@
 import { Controller } from 'egg';
 
+interface ResponseData {
+  msg?: string;
+  code?: number;
+  data?: object;
+}
+
 export default class BaseController extends Controller {
-  protected success(data: {}, msg = '') {
-    this.ctx.status = 200;
-    this.ctx.body = {
-      msg,
-      data,
-      code: 1
-    };
+  protected success({ data = {}, code = 1, msg = 'success' }: ResponseData) {
+    this.setCtxBody({ data, code, msg });
   }
 
-  protected fail(data: {}, msg = '') {
-    this.ctx.status = 403;
-    this.ctx.body = {
-      msg,
-      data,
-      code: 0
-    };
+  protected fail({ data = {}, code = 0, msg = 'fail' }: ResponseData) {
+    this.setCtxBody({ data, code, msg });
+  }
+
+  private setCtxBody(resData: ResponseData) {
+    this.ctx.body = resData;
   }
 }

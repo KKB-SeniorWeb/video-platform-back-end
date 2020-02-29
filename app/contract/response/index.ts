@@ -4,6 +4,12 @@ module.exports = {
     msg: { type: 'string', example: 'fail' },
     data: { type: 'object', example: {} }
   },
+
+  baseResponseSuccess: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: 'success' },
+    data: { type: 'object', example: {} }
+  },
   signupResponse: {
     code: { type: 'number', example: 1 },
     msg: { type: 'string', example: '' },
