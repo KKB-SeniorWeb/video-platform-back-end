@@ -1,5 +1,6 @@
 import * as assert from 'assert';
 import { app, mock } from 'egg-mock/bootstrap';
+import { SIGNUP, SIGNUP_CHECK } from '../../../app/const/index';
 
 function createSignupInfo(info = {}) {
   const defaultInfo = {
@@ -175,7 +176,7 @@ describe('test/app/controller/signup.test.ts', () => {
   afterEach(mock.restore);
 
   describe('signUp 注册', () => {
-    const apiName = '/signup';
+    const apiName = SIGNUP;
 
     const assertFail = res => {
       assert(res.status === 200);
@@ -201,7 +202,7 @@ describe('test/app/controller/signup.test.ts', () => {
   });
 
   describe('signup_check 检测是否可注册', () => {
-    const apiName = '/signup_check';
+    const apiName = SIGNUP_CHECK;
 
     const assertFail = result => {
       assert(result.status === 200);
