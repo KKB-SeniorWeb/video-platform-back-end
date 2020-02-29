@@ -1,5 +1,6 @@
 import { Service } from 'egg';
 import { v4 as uuidv4 } from 'uuid';
+import * as bcrypt from '../utils/bcrypt';
 
 interface UserModel {
   id: string;
@@ -23,7 +24,7 @@ export default class SignupService extends Service {
     return {
       id: uuidv4(),
       username,
-      password,
+      password: bcrypt.hashSync(password),
       nickname: this.getNickname(),
       avatar: 'test'
     };

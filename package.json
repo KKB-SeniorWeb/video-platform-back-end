@@ -25,6 +25,7 @@
     "debug": "egg-bin debug"
   },
   "dependencies": {
+    "bcrypt": "^4.0.0",
     "egg": "^2.6.1",
     "egg-scripts": "^2.6.0",
     "egg-sequelize": "^5.2.1",
@@ -89,7 +90,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push":"EGG_SERVER_ENV=test npm run test",
+      "pre-push": "EGG_SERVER_ENV=test npm run test",
       "commit-msg": "commitlint -e $GIT_PARAMS"
     }
   }
