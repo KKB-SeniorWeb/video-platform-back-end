@@ -1,20 +1,36 @@
 import { Service } from 'egg';
 import { v4 as uuidv4 } from 'uuid';
 
-const getNickname = () => {
-  return new Date().valueOf() + '_name';
-};
+interface UserModel {
+  id: string;
+  username: string;
+  password: string;
+  nickname: string;
+  avatar: string;
+}
 
+interface UserInfo {
+  username: string;
+  password: string;
+}
 export default class SignupService extends Service {
-  public async index(username, password) {
-    const result = await this.ctx.model.User.create({
+  public async index(userInfo: UserInfo) {
+    const result = await this.ctx.model.User.create(this.generateUserModel(userInfo));
+    return result.toJSON();
+  }
+
+  private generateUserModel({ username, password }: UserInfo): UserModel {
+    return {
       id: uuidv4(),
       username,
       password,
-      nickname: getNickname(),
+      nickname: this.getNickname(),
       avatar: 'test'
-    });
-    return result.toJSON();
+    };
+  }
+
+  private getNickname() {
+    return new Date().valueOf() + '_name';
   }
 
   public async checkUsernameIsExist(username) {

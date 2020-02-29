@@ -26,7 +26,7 @@ export default class SignupController extends BaseController {
     const isValidatePass = await this.handleValidate();
     if (isValidatePass) {
       const { password, username } = this.ctx.request.body;
-      const result = await this.ctx.service.signup.index(username, password);
+      const result = await this.ctx.service.signup.index({ username, password });
       this.success({
         data: this.generateResData(result)
       });
