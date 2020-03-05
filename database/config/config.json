@@ -18,8 +18,8 @@
   "production": {
     "username": "root",
     "password": "123456",
-    "database": "video_platform_production",
-    "host": "127.0.0.1",
+    "database": "video_platform",
+    "host": "150.109.116.73",
     "dialect": "mysql",
     "operatorsAliases": false
   }

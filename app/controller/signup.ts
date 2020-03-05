@@ -5,13 +5,6 @@ interface ValidateResult {
   msg: string;
 }
 
-interface SignupSuccessResData {
-  id: string;
-  avatar: string;
-  username: string;
-  nickname: string;
-}
-
 /**
  * @Controller
  */
@@ -26,21 +19,10 @@ export default class SignupController extends BaseController {
     const isValidatePass = await this.handleValidate();
     if (isValidatePass) {
       const { password, username } = this.ctx.request.body;
-      const result = await this.ctx.service.signup.index({ username, password });
-      this.success({
-        data: this.generateResData(result)
-      });
+      const userModel = await this.ctx.service.signup.index({ username, password });
+      const resData = await this.ctx.service.signin.index(userModel.username);
+      this.success({ data: resData });
     }
-  }
-
-  private generateResData(result): SignupSuccessResData {
-    const { id, avatar, username, nickname } = result;
-    return {
-      id,
-      avatar,
-      username,
-      nickname
-    };
   }
 
   /**
@@ -70,7 +52,8 @@ export default class SignupController extends BaseController {
     }
 
     const { username } = ctx.request.body;
-    const isExist = await this.ctx.service.signup.checkUsernameIsExist(username);
+
+    const isExist = await this.ctx.service.user.checkUsernameIsExist(username);
     if (isExist) {
       this.fail({
         msg: '用户名已经存在'

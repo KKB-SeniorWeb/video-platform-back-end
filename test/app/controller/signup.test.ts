@@ -146,7 +146,7 @@ function confirmPasswordDescribe(apiName, assertSuccess, assertFail) {
 function usernameIsExistDescribe(apiName, assertSuccess, assertFail) {
   describe('用户名是否已经注册', () => {
     it('如果用户已经存在，那么注册失败', async () => {
-      app.mockService('signup', 'checkUsernameIsExist', () => {
+      app.mockService('user', 'checkUsernameIsExist', () => {
         return true;
       });
 
@@ -168,7 +168,7 @@ function usernameIsExistDescribe(apiName, assertSuccess, assertFail) {
 
 describe('test/app/controller/signup.test.ts', () => {
   beforeEach(() => {
-    app.mockService('signup', 'checkUsernameIsExist', () => {
+    app.mockService('user', 'checkUsernameIsExist', () => {
       return false;
     });
   });
@@ -193,6 +193,7 @@ describe('test/app/controller/signup.test.ts', () => {
       assert(body.data.id);
       assert(body.data.nickname);
       assert(body.data.avatar);
+      assert(body.data.token);
     };
 
     usernameDescribe(apiName, assertSuccess, assertFail);

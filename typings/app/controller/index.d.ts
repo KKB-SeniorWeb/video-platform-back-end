@@ -2,10 +2,12 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
+import ExportSignin from '../../../app/controller/signin';
 import ExportSignup from '../../../app/controller/signup';
 
 declare module 'egg' {
   interface IController {
+    signin: ExportSignin;
     signup: ExportSignup;
   }
 }
