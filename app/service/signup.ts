@@ -1,7 +1,7 @@
 import { Service } from 'egg';
 import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from '../utils/bcrypt';
-import { AccountInterface } from './user';
+import { Account } from './user';
 
 interface UserModel {
   id: string;
@@ -12,12 +12,12 @@ interface UserModel {
 }
 
 export default class SignupService extends Service {
-  public async index(accountInfo: AccountInterface) {
+  public async index(accountInfo: Account) {
     const userRawModel = await this.ctx.model.User.create(this.generateUserModel(accountInfo));
     return userRawModel.toJSON();
   }
 
-  private generateUserModel({ username, password }: AccountInterface): UserModel {
+  private generateUserModel({ username, password }: Account): UserModel {
     return {
       id: uuidv4(),
       username,
