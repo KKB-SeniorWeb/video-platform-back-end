@@ -8,14 +8,10 @@ interface ResponseData {
 
 export default class BaseController extends Controller {
   protected success({ data = {}, code = 1, msg = 'success' }: ResponseData) {
-    this.setResponseData({ data, code, msg });
+    this.ctx.helper.success({ data, code, msg });
   }
 
   protected fail({ data = {}, code = 0, msg = 'fail' }: ResponseData) {
-    this.setResponseData({ data, code, msg });
-  }
-
-  private setResponseData(resData: ResponseData) {
-    this.ctx.body = resData;
+    this.ctx.helper.fail({ data, code, msg });
   }
 }
