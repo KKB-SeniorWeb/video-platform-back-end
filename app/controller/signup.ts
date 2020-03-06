@@ -14,8 +14,8 @@ export default class SignupController extends BaseController {
     try {
       this.validateParams();
       const { password, username } = this.ctx.request.body;
-      const userModel = await this.ctx.service.signup.create({ username, password });
-      const resData = await this.ctx.service.signin.index(userModel.username);
+      await this.ctx.service.signup.create({ username, password });
+      const resData = await this.ctx.service.signin.index(username, password);
       this.success({ data: resData });
     } catch (e) {
       this.fail({ msg: e.message });

@@ -38,7 +38,6 @@ describe('test/app/service/Signup.test.js', () => {
       assert(result.id);
       assert(result.nickname);
       assert(result.avatar);
-      //   assert(result.token);
     });
   });
 });

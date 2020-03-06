@@ -3,7 +3,7 @@
 // 看看能不能获取到过期时间，如果没有的话 ，那么在 service 里面测试生成过期时间的逻辑
 
 import * as assert from 'assert';
-import { app, mock } from 'egg-mock/bootstrap';
+import { app } from 'egg-mock/bootstrap';
 import { SIGNIN } from '../../../app/const/index';
 
 function createSigninInfo(info = {}) {
@@ -16,7 +16,6 @@ function createSigninInfo(info = {}) {
 }
 
 describe('test/app/controller/signin.test.ts', () => {
-  afterEach(mock.restore);
   describe('signin 登录', () => {
     const apiName = SIGNIN;
     describe('username', () => {
@@ -27,21 +26,6 @@ describe('test/app/controller/signin.test.ts', () => {
           .send(createSigninInfo({ username: '' }));
 
         assert(result.body.code === 0);
-        assert(result.body.msg === '账号不能为空');
-      });
-
-      it('如果用户名不存在的话，返回用户名不存在的消息', async () => {
-        app.mockService('user', 'checkUsernameIsExist', () => {
-          return false;
-        });
-
-        const result = await app
-          .httpRequest()
-          .post(apiName)
-          .send(createSigninInfo());
-
-        assert(result.body.code === 0);
-        assert(result.body.msg === '用户名不存在');
       });
     });
 
@@ -53,57 +37,22 @@ describe('test/app/controller/signin.test.ts', () => {
           .send(createSigninInfo({ password: '' }));
 
         assert(result.body.code === 0);
-        assert(result.body.msg === '密码不能为空');
-      });
-
-      it('如果密码错误,返回账号或者密码错误的消息', async () => {
-        app.mockService('user', 'checkUsernameIsExist', () => {
-          return true;
-        });
-        const result = await app
-          .httpRequest()
-          .post(apiName)
-          .send(createSigninInfo({ password: '1234567890a' }));
-
-        assert(result.body.code === 0);
-        assert(result.body.msg === '账号或者密码错误');
       });
     });
 
-    it('如果账号和密码正确,登录成功', async () => {
-      app.mockService('user', 'isMatch', () => {
-        return true;
-      });
-
-      app.mockService('user', 'checkUsernameIsExist', () => {
-        return true;
-      });
-
+    it('登录成功', async () => {
       app.mockService('signin', 'index', () => {
-        return {
-          id: '1',
-          avatar: 'test',
-          username: '123123',
-          nickname: '12312',
-          token: '12333'
-        };
+        return true;
       });
 
       const result = await app
         .httpRequest()
         .post(apiName)
-        .send(createSigninInfo({ password: '1234567890' }));
+        .send(createSigninInfo());
 
       assert(result.body.code === 1);
-
-      const { body } = result;
-      assert(body.code === 1);
-      assert(body.data.username);
-      assert(body.data.id);
-      assert(body.data.nickname);
-      assert(body.data.avatar);
-      assert(body.data.token);
       assert(result.body.msg === '登录成功');
+      assert(result.body.data === true);
     });
   });
 });

@@ -1,4 +1,5 @@
 import { Service } from 'egg';
+import * as bcrypt from '../utils/bcrypt';
 
 interface TokenOptions {
   longTimeSignin?: boolean;
@@ -14,7 +15,24 @@ interface SigninSuccessResData {
 }
 
 export default class SigninService extends Service {
-  public async index(username, longTimeSignin = false): Promise<SigninSuccessResData> {
+  /**
+   * 登录
+   * @param username
+   * @param password
+   * @param longTimeSignin
+   */
+  public async index(username, password, longTimeSignin = false): Promise<SigninSuccessResData> {
+    const isExistUser = await this.ctx.service.user.checkUsernameIsExist(username);
+    if (!isExistUser) {
+      throw new Error('用户不存在');
+    }
+
+    const isMatch = await this.isMatch(username, password);
+
+    if (!isMatch) {
+      throw new Error('账号或者密码错误');
+    }
+
     const userModel = await this.getUserModel(username);
     const token = this.generateToken({ uId: userModel.id, longTimeSignin });
     return {
@@ -24,6 +42,12 @@ export default class SigninService extends Service {
       username: userModel.username,
       nickname: userModel.nickname
     };
+  }
+
+  private async isMatch(username, password) {
+    const userModel = await this.ctx.model.User.findOne({ where: { username } });
+    if (!userModel) return false;
+    return bcrypt.compareSync(password, userModel.password);
   }
 
   private async getUserModel(username) {
