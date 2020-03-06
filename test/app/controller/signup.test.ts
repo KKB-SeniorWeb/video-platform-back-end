@@ -1,5 +1,5 @@
 import * as assert from 'assert';
-import { app, mock } from 'egg-mock/bootstrap';
+import { app } from 'egg-mock/bootstrap';
 import { SIGNUP, SIGNUP_CHECK } from '../../../app/const/index';
 
 function createSignupInfo(info = {}) {
@@ -143,38 +143,7 @@ function confirmPasswordDescribe(apiName, assertSuccess, assertFail) {
   });
 }
 
-function usernameIsExistDescribe(apiName, assertSuccess, assertFail) {
-  describe('用户名是否已经注册', () => {
-    it('如果用户已经存在，那么注册失败', async () => {
-      app.mockService('user', 'checkUsernameIsExist', () => {
-        return true;
-      });
-
-      const result = await app
-        .httpRequest()
-        .post(apiName)
-        .send(createSignupInfo());
-      assertFail(result);
-    });
-    it('如果用户不存在，那么注册成功', async () => {
-      const result = await app
-        .httpRequest()
-        .post(apiName)
-        .send(createSignupInfo());
-      assertSuccess(result);
-    });
-  });
-}
-
 describe('test/app/controller/signup.test.ts', () => {
-  beforeEach(() => {
-    app.mockService('user', 'checkUsernameIsExist', () => {
-      return false;
-    });
-  });
-
-  afterEach(mock.restore);
-
   describe('signUp 注册', () => {
     const apiName = SIGNUP;
 
@@ -199,7 +168,6 @@ describe('test/app/controller/signup.test.ts', () => {
     usernameDescribe(apiName, assertSuccess, assertFail);
     passwordDescribe(apiName, assertSuccess, assertFail);
     confirmPasswordDescribe(apiName, assertSuccess, assertFail);
-    usernameIsExistDescribe(apiName, assertSuccess, assertFail);
   });
 
   describe('signup_check 检测是否可注册', () => {
@@ -214,12 +182,11 @@ describe('test/app/controller/signup.test.ts', () => {
     const assertSuccess = result => {
       assert(result.status === 200);
       assert(result.body.code === 1);
-      assert(result.body.msg === '校验成功');
+      assert(result.body.msg === '可注册');
     };
 
     usernameDescribe(apiName, assertSuccess, assertFail);
     passwordDescribe(apiName, assertSuccess, assertFail);
     confirmPasswordDescribe(apiName, assertSuccess, assertFail);
-    usernameIsExistDescribe(apiName, assertSuccess, assertFail);
   });
 });
