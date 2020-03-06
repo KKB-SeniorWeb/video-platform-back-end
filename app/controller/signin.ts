@@ -3,6 +3,13 @@ import BaseController from '../core/BaseController';
 /**
  * @Controller
  */
+
+/**
+ * @Summary 登录
+ * @Router POST /signin
+ * @Request body signinRequest *body
+ * @Response 200 signinResponse success
+ */
 export default class SigninController extends BaseController {
   public async index() {
     const { username, password, longTimeSignin } = this.ctx.request.body;

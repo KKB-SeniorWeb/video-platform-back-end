@@ -8,7 +8,7 @@ export default class SignupController extends BaseController {
    * @Summary 注册
    * @Router POST /signup
    * @Request body signupRequest *body
-   * @Response 200 signupResponse success
+   * @Response 200 signinResponse success
    */
   public async index() {
     try {
