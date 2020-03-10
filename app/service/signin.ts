@@ -22,17 +22,7 @@ export default class SigninService extends Service {
    * @param longTimeSignin
    */
   public async index(username, password, longTimeSignin = false): Promise<SigninSuccessResData> {
-    const isExistUser = await this.ctx.service.user.checkUsernameIsExist(username);
-    if (!isExistUser) {
-      throw new Error('用户不存在');
-    }
-
-    const isMatch = await this.isMatch(username, password);
-
-    if (!isMatch) {
-      throw new Error('账号或者密码错误');
-    }
-
+    await this.checkAccount(username, password);
     const userModel = await this.getUserModel(username);
     const token = this.generateToken({ uId: userModel.id, longTimeSignin });
     return {
@@ -42,6 +32,17 @@ export default class SigninService extends Service {
       username: userModel.username,
       nickname: userModel.nickname
     };
+  }
+
+  private async checkAccount(username: any, password: any) {
+    const isExistUser = await this.ctx.service.user.checkUsernameIsExist(username);
+    if (!isExistUser) {
+      throw new Error('用户不存在');
+    }
+    const isMatch = await this.isMatch(username, password);
+    if (!isMatch) {
+      throw new Error('账号或者密码错误');
+    }
   }
 
   private async isMatch(username, password) {

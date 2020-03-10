@@ -1,7 +1,3 @@
-// 登录接口返回的数据里面要有 token 字段
-// 调用登录接口返回的 token ，解出来 ，然后看看里面有没有id之类的字段
-// 看看能不能获取到过期时间，如果没有的话 ，那么在 service 里面测试生成过期时间的逻辑
-
 import * as assert from 'assert';
 import { app } from 'egg-mock/bootstrap';
 import { SIGNIN } from '../../../app/const/index';
