@@ -23,7 +23,7 @@ describe('test/app/service/Signin.test.js', () => {
         await ctx.service.signin.index(account.username, account.password);
         assert.fail('应该抛出错误');
       } catch (e) {
-        assert(e.message === '用户不存在');
+        assert(e.message === '账号或者密码错误');
       }
     });
 

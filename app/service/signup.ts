@@ -30,7 +30,7 @@ export default class SignupService extends Service {
   public async check(username) {
     const isExist = await this.ctx.service.user.checkUsernameIsExist(username);
     if (isExist) {
-      throw new Error('用户名已经存在');
+      this.ctx.throw(400, '用户名已经存在');
     }
   }
 

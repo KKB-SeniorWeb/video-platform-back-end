@@ -11,15 +11,11 @@ export default class SignupController extends BaseController {
    * @Response 200 signinResponse success
    */
   public async index() {
-    try {
-      this.validateParams();
-      const { password, username } = this.ctx.request.body;
-      await this.ctx.service.signup.create({ username, password });
-      const resData = await this.ctx.service.signin.index(username, password);
-      this.success({ data: resData });
-    } catch (e) {
-      this.fail({ msg: e.message });
-    }
+    this.validateParams();
+    const { password, username } = this.ctx.request.body;
+    await this.ctx.service.signup.create({ username, password });
+    const resData = await this.ctx.service.signin.index(username, password);
+    this.success({ data: resData });
   }
 
   /**
@@ -29,16 +25,12 @@ export default class SignupController extends BaseController {
    * @Response 200 baseResponseSuccess success
    */
   public async check() {
-    try {
-      this.validateParams();
-      const { username } = this.ctx.request.body;
-      await this.ctx.service.signup.check(username);
-      this.success({
-        msg: '可注册'
-      });
-    } catch (e) {
-      this.fail({ msg: e.message });
-    }
+    this.validateParams();
+    const { username } = this.ctx.request.body;
+    await this.ctx.service.signup.check(username);
+    this.success({
+      msg: '可注册'
+    });
   }
 
   private validateParams() {
@@ -49,7 +41,7 @@ export default class SignupController extends BaseController {
   private validateConfirmPassword() {
     const { confirmPassword, password } = this.ctx.request.body;
     if (confirmPassword !== password) {
-      throw new Error('密码和确认密码不一致');
+      this.ctx.throw(400, '密码和确认密码不一致');
     }
   }
 

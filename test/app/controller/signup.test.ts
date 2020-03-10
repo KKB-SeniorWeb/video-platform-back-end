@@ -148,7 +148,6 @@ describe('test/app/controller/signup.test.ts', () => {
     const apiName = SIGNUP;
 
     const assertFail = res => {
-      assert(res.status === 200);
       assert(res.body.code === 0);
       assert(res.body.msg);
     };
@@ -174,7 +173,6 @@ describe('test/app/controller/signup.test.ts', () => {
     const apiName = SIGNUP_CHECK;
 
     const assertFail = result => {
-      assert(result.status === 200);
       assert(result.body.code === 0);
       assert(result.body.msg);
     };

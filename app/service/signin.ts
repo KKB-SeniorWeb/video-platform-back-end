@@ -36,12 +36,14 @@ export default class SigninService extends Service {
 
   private async checkAccount(username: any, password: any) {
     const isExistUser = await this.ctx.service.user.checkUsernameIsExist(username);
+    const errorMsg = '账号或者密码错误';
+    const errorStatus = 400;
     if (!isExistUser) {
-      throw new Error('用户不存在');
+      this.ctx.throw(errorStatus, errorMsg);
     }
     const isMatch = await this.isMatch(username, password);
     if (!isMatch) {
-      throw new Error('账号或者密码错误');
+      this.ctx.throw(errorStatus, errorMsg);
     }
   }
 
