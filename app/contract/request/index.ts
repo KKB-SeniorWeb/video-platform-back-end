@@ -8,5 +8,13 @@ module.exports = {
     username: { type: 'string', required: true, example: 'cuicuicui' },
     password: { type: 'string', required: true, example: 'ceshiceshi1' },
     longTimeSignin: { type: 'boolean', required: false, example: false }
+  },
+  uploadVideoRequest: {
+    videoData: { type: 'files', required: true, example: '{}' },
+    videoName: { type: 'string', required: true, example: 'videoName' },
+    videoCover: { type: 'string', required: true, example: 'http://.....jpg' }
+  },
+  deleteVideoRequest: {
+    paths: { type: 'object', required: true, example: '["http://...mp4", "http://...mp4"]' }
   }
 };

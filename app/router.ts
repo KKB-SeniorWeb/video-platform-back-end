@@ -1,5 +1,5 @@
 import { Application } from 'egg';
-import { SIGNUP, SIGNUP_CHECK, SIGNIN } from './const/index';
+import { SIGNUP, SIGNUP_CHECK, SIGNIN, VIDEO_UPLOAD, VIDEO_DELETE } from './const/index';
 
 function signRouter(app) {
   const { controller, router } = app;
@@ -9,6 +9,13 @@ function signRouter(app) {
   router.post(SIGNIN, controller.signin.index);
 }
 
+function videoRouter(app) {
+  const { controller, router } = app;
+  router.post(VIDEO_UPLOAD, controller.video.upload);
+  router.post(VIDEO_DELETE, controller.video.delete);
+}
+
 export default (app: Application) => {
   signRouter(app);
+  videoRouter(app);
 };
