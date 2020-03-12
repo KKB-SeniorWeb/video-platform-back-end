@@ -1,6 +1,6 @@
 import { Controller } from 'egg';
 
-interface ResponseData {
+declare interface ResponseData {
   msg?: string;
   code?: number;
   data?: object;

@@ -4,10 +4,12 @@
 import 'egg';
 import ExportSignin from '../../../app/controller/signin';
 import ExportSignup from '../../../app/controller/signup';
+import ExportVideo from '../../../app/controller/video';
 
 declare module 'egg' {
   interface IController {
     signin: ExportSignin;
     signup: ExportSignup;
+    video: ExportVideo;
   }
 }

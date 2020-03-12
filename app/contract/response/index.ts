@@ -23,5 +23,17 @@ module.exports = {
         token: { type: 'string', example: 'dsalfkjdsalfjdslfadsjflkwejoifjsdlakfjsdlfj' }
       }
     }
+  },
+  uploadVideoResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '' },
+    data: {
+      type: 'object',
+      example: ['http://....mp4']
+    }
+  },
+  deleteVideoResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '' }
   }
 };
