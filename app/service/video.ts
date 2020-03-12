@@ -5,26 +5,26 @@ import { v4 as uuidv4 } from 'uuid';
 interface VideoModel {
   id: string;
   video_name: string;
-  url: string;
+  video_path: string;
 }
 
 interface VideoInfo {
-  url: string;
+  video_path: string;
   video_name: string;
 }
 
 class Video extends Service {
-  async upload({ url, video_name }: VideoInfo) {
+  async upload({ video_path, video_name }: VideoInfo) {
     const { ctx } = this;
-    const res = await ctx.model.Video.create(this.generateVideoTable({ url, video_name }));
+    const res = await ctx.model.Video.create(this.generateVideoTable({ video_path, video_name }));
     console.log(res);
     return res;
   }
 
-  private generateVideoTable({ url, video_name }: VideoInfo): VideoModel {
+  private generateVideoTable({ video_path, video_name }: VideoInfo): VideoModel {
     return {
       id: uuidv4(),
-      url,
+      video_path,
       video_name
     };
   }

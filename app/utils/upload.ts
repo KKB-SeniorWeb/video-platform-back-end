@@ -93,7 +93,10 @@ export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string
         await sendToWormhole(part);
         throw err;
       }
-      const { id, video_name: videoName } = await ctx.service[type].upload({ url: result.path, video_name: fileName });
+      const { id, video_name: videoName } = await ctx.service[type].upload({
+        video_path: result.path,
+        video_name: fileName
+      });
       res.success.push({ id, videoName });
     }
   }
