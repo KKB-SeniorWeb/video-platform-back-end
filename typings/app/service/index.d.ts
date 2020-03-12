@@ -2,10 +2,14 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
+import ExportSignin from '../../../app/service/signin';
 import ExportSignup from '../../../app/service/signup';
+import ExportUser from '../../../app/service/user';
 
 declare module 'egg' {
   interface IService {
+    signin: ExportSignin;
     signup: ExportSignup;
+    user: ExportUser;
   }
 }

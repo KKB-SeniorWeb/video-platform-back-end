@@ -11,7 +11,7 @@
     "start": "egg-scripts start --daemon --title=egg-server-video-platform-back-end",
     "stop": "egg-scripts stop --title=egg-server-video-platform-back-end",
     "dev": "egg-bin dev",
-    "test-local-watch": "egg-bin test --watch-extensions ts --watch --file ./test/.setup.ts --full-trace",
+    "test-local-watch": "egg-bin test --watch-extensions ts --watch --file ./test/.setup.ts",
     "test-local": "egg-bin test --file ./test/.setup.ts --full-trace",
     "test": "npm run lint -- --fix && npm run test-local",
     "cov": "egg-bin cov",
@@ -27,6 +27,7 @@
   "dependencies": {
     "bcrypt": "^4.0.0",
     "egg": "^2.6.1",
+    "egg-jwt": "^3.1.7",
     "egg-scripts": "^2.6.0",
     "egg-sequelize": "^5.2.1",
     "egg-swagger-doc": "^2.3.2",
@@ -90,7 +91,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "EGG_SERVER_ENV=test npm run test",
+      "pre-push": "EGG_SERVER_ENV=unittest npm run test",
       "commit-msg": "commitlint -e $GIT_PARAMS"
     }
   }

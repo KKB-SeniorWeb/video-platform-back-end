@@ -1,17 +1,5 @@
 import BaseController from '../core/BaseController';
 
-interface ValidateResult {
-  isPass: boolean;
-  msg: string;
-}
-
-interface SignupSuccessResData {
-  id: string;
-  avatar: string;
-  username: string;
-  nickname: string;
-}
-
 /**
  * @Controller
  */
@@ -20,27 +8,14 @@ export default class SignupController extends BaseController {
    * @Summary 注册
    * @Router POST /signup
    * @Request body signupRequest *body
-   * @Response 200 signupResponse success
+   * @Response 200 signinResponse success
    */
   public async index() {
-    const isValidatePass = await this.handleValidate();
-    if (isValidatePass) {
-      const { password, username } = this.ctx.request.body;
-      const result = await this.ctx.service.signup.index({ username, password });
-      this.success({
-        data: this.generateResData(result)
-      });
-    }
-  }
-
-  private generateResData(result): SignupSuccessResData {
-    const { id, avatar, username, nickname } = result;
-    return {
-      id,
-      avatar,
-      username,
-      nickname
-    };
+    this.validateParams();
+    const { password, username } = this.ctx.request.body;
+    await this.ctx.service.signup.create({ username, password });
+    const resData = await this.ctx.service.signin.index(username, password);
+    this.success({ data: resData });
   }
 
   /**
@@ -50,62 +25,27 @@ export default class SignupController extends BaseController {
    * @Response 200 baseResponseSuccess success
    */
   public async check() {
-    const isValidatePass = await this.handleValidate();
-    if (isValidatePass) {
-      this.success({
-        msg: '校验成功'
-      });
+    this.validateParams();
+    const { username } = this.ctx.request.body;
+    await this.ctx.service.signup.check(username);
+    this.success({
+      msg: '可注册'
+    });
+  }
+
+  private validateParams() {
+    this.ctx.validate(this.getRule());
+    this.validateConfirmPassword();
+  }
+
+  private validateConfirmPassword() {
+    const { confirmPassword, password } = this.ctx.request.body;
+    if (confirmPassword !== password) {
+      this.ctx.throw(400, '密码和确认密码不一致');
     }
   }
 
-  private async handleValidate(): Promise<boolean> {
-    const { ctx } = this;
-
-    const validateResult = await this.validateAllFields();
-    if (!validateResult.isPass) {
-      this.fail({
-        msg: validateResult.msg
-      });
-      return false;
-    }
-
-    const { username } = ctx.request.body;
-    const isExist = await this.ctx.service.signup.checkUsernameIsExist(username);
-    if (isExist) {
-      this.fail({
-        msg: '用户名已经存在'
-      });
-      return false;
-    }
-
-    return true;
-  }
-
-  private async validateAllFields(): Promise<ValidateResult> {
-    const validateConfirmPassword = () => {
-      const { confirmPassword, password } = this.ctx.request.body;
-      if (confirmPassword !== password) {
-        throw new Error('密码和确认密码不一致');
-      }
-    };
-
-    const result: ValidateResult = {
-      isPass: true,
-      msg: ''
-    };
-
-    try {
-      this.ctx.validate(this.getSignUpRule());
-      validateConfirmPassword();
-    } catch (e) {
-      result.msg = e.message;
-      result.isPass = false;
-    }
-
-    return result;
-  }
-
-  private getSignUpRule() {
+  private getRule() {
     return {
       username: {
         type: 'string',

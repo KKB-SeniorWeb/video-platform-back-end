@@ -3,9 +3,19 @@ import { EggAppConfig, EggAppInfo, PowerPartial } from 'egg';
 export default (appInfo: EggAppInfo) => {
   const config = {} as PowerPartial<EggAppConfig>;
 
+  // 加载 errorHandler 中间件
+  const middleware = ['errorHandler'];
+
   // override config from framework / plugin
   // use for cookie sign key, should change to your own and keep security
   config.keys = appInfo.name + '_1582544882178_2333';
+
+  config.jwt = {
+    secret: '123456',
+    sign: {
+      expiresIn: '2h'
+    }
+  };
 
   // add your egg config in here
   config.middleware = [];
@@ -61,6 +71,7 @@ export default (appInfo: EggAppInfo) => {
     ...config,
     ...bizConfig,
     ...swaggerdoc,
-    sequelize
+    sequelize,
+    middleware
   };
 };

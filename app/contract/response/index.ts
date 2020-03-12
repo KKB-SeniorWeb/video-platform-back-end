@@ -10,7 +10,7 @@ module.exports = {
     msg: { type: 'string', example: 'success' },
     data: { type: 'object', example: {} }
   },
-  signupResponse: {
+  signinResponse: {
     code: { type: 'number', example: 1 },
     msg: { type: 'string', example: '' },
     data: {
@@ -19,7 +19,8 @@ module.exports = {
         id: { type: 'string', example: '123124124' },
         username: { type: 'string', example: 'xiaoming' },
         nickname: { type: 'string', example: 'kekeaiai' },
-        avatar: { type: 'string', example: 'url' }
+        avatar: { type: 'string', example: 'url' },
+        token: { type: 'string', example: 'dsalfkjdsalfjdslfadsjflkwejoifjsdlakfjsdlfj' }
       }
     }
   }

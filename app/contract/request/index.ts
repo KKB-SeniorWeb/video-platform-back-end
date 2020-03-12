@@ -3,5 +3,10 @@ module.exports = {
     username: { type: 'string', required: true, example: 'cuicuicui' },
     password: { type: 'string', required: true, example: 'ceshiceshi1' },
     confirmPassword: { type: 'string', required: true }
+  },
+  signinRequest: {
+    username: { type: 'string', required: true, example: 'cuicuicui' },
+    password: { type: 'string', required: true, example: 'ceshiceshi1' },
+    longTimeSignin: { type: 'boolean', required: false, example: false }
   }
 };

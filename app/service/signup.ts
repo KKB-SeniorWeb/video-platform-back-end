@@ -1,6 +1,7 @@
 import { Service } from 'egg';
 import { v4 as uuidv4 } from 'uuid';
 import * as bcrypt from '../utils/bcrypt';
+import { Account } from './user';
 
 interface UserModel {
   id: string;
@@ -10,17 +11,30 @@ interface UserModel {
   avatar: string;
 }
 
-interface UserInfo {
-  username: string;
-  password: string;
-}
 export default class SignupService extends Service {
-  public async index(userInfo: UserInfo) {
-    const result = await this.ctx.model.User.create(this.generateUserModel(userInfo));
-    return result.toJSON();
+  /**
+   * 注册用户
+   * 创建一个用户
+   * @param account
+   */
+  public async create(account: Account) {
+    await this.check(account.username);
+    const userRawModel = await this.ctx.model.User.create(this.generateUserModel(account));
+    return userRawModel.toJSON();
   }
 
-  private generateUserModel({ username, password }: UserInfo): UserModel {
+  /**
+   * 检查用户是否可注册
+   * @param username
+   */
+  public async check(username) {
+    const isExist = await this.ctx.service.user.checkUsernameIsExist(username);
+    if (isExist) {
+      this.ctx.throw(400, '用户名已经存在');
+    }
+  }
+
+  private generateUserModel({ username, password }: Account): UserModel {
     return {
       id: uuidv4(),
       username,
@@ -32,13 +46,5 @@ export default class SignupService extends Service {
 
   private getNickname() {
     return new Date().valueOf() + '_name';
-  }
-
-  public async checkUsernameIsExist(username) {
-    const isExist = await this.ctx.model.User.findOne({ where: { username } });
-    if (isExist === null) {
-      return false;
-    }
-    return true;
   }
 }
