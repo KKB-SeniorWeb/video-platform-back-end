@@ -91,7 +91,7 @@
   "husky": {
     "hooks": {
       "pre-commit": "lint-staged",
-      "pre-push": "EGG_SERVER_ENV=test npm run test",
+      "pre-push": "EGG_SERVER_ENV=unittest npm run test",
       "commit-msg": "commitlint -e $GIT_PARAMS"
     }
   }
