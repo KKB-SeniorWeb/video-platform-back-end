@@ -1,6 +1,7 @@
 import * as assert from 'assert';
 import { app } from 'egg-mock/bootstrap';
 import { VIDEO_UPLOAD } from '../../../app/const/';
+import * as path from 'path';
 
 function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
   describe('videoData', () => {
@@ -20,7 +21,10 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
         .post(apiName)
         .set('content-type', 'multipart/form-data')
         .field('name', 'this_file')
-        .attach('this_file', '/Users/zhangyuxuan/Desktop/视频存放/2020.02.18.21.05.html');
+        .attach(
+          'this_file',
+          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/2020.02.18.21.05.html')
+        );
 
       assertFail(result);
     });
@@ -30,7 +34,10 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
         .post(apiName)
         .set('content-type', 'multipart/form-data')
         .field('name', 'this_file')
-        .attach('this_file', '/Users/zhangyuxuan/Desktop/视频存放/EV~2020.02.18~21.06.30.mp4');
+        .attach(
+          'this_file',
+          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/EV~2020.02.18~21.06.30.mp4')
+        );
 
       assertSuccess(result);
       assert(result.body.data[0].videoName === 'EV~2020.02.18~21.06.30.mp4');
@@ -41,8 +48,14 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
         .post(apiName)
         .set('content-type', 'multipart/form-data')
         .field('name', 'this_file')
-        .attach('this_file', '/Users/zhangyuxuan/Desktop/视频存放/2020.02.18.21.05.html')
-        .attach('this_file', '/Users/zhangyuxuan/Desktop/视频存放/EV~2020.02.18~21.42.47.mp4');
+        .attach(
+          'this_file',
+          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/2020.02.18.21.05.html')
+        )
+        .attach(
+          'this_file',
+          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/EV~2020.02.18~21.42.47.mp4')
+        );
 
       assertBoth(result);
       assert(result.body.data.success[0].videoName === 'EV~2020.02.18~21.42.47.mp4');
@@ -54,8 +67,14 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
         .post(apiName)
         .set('content-type', 'multipart/form-data')
         .field('name', 'this_file')
-        .attach('this_file', '/Users/zhangyuxuan/Desktop/视频存放/EV~2020.02.18~21.06.30.mp4')
-        .attach('this_file', '/Users/zhangyuxuan/Desktop/视频存放/EV~2020.02.18~21.42.47.mp4');
+        .attach(
+          'this_file',
+          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/EV~2020.02.18~21.06.30.mp4')
+        )
+        .attach(
+          'this_file',
+          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/EV~2020.02.18~21.42.47.mp4')
+        );
 
       assertSuccess(result);
       assert(result.body.data[0].videoName === 'EV~2020.02.18~21.06.30.mp4');
