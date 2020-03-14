@@ -82,9 +82,7 @@ export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string
       let result;
       try {
         // 创建文件写入流
-        const remoteFileStream = fs.createWriteStream(
-          path.join('/Users/zhangyuxuan/Desktop/', `uploadFile/${type}/${fileName}`)
-        );
+        const remoteFileStream = fs.createWriteStream(`../../uploadFile/${type}/${fileName}`);
         // 以管道方式写入流
         result = await part.pipe(remoteFileStream);
         // result = await ctx.oss.put('~/uploadFile' + part.filename, part);
@@ -101,25 +99,23 @@ export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string
     }
   }
   if (!res.success.length && res.failed.length) {
-    ctx.helper.fail({
-      data: res.failed,
-      msg: `${translate[type]}上传失败，请查看失败原因！`
-    });
+    ctx.throw(400, `${translate[type]}上传失败，请查看失败原因！`, res.failed);
+    // ctx.helper.fail({
+    //   data: res.failed,
+    //   msg: `${translate[type]}上传失败，请查看失败原因！`
+    // });
   } else if (res.success.length && res.failed.length) {
     ctx.helper.success({
       data: res,
       msg: `部分${translate[type]}上传成功，请查看未成功文件信息！`
     });
   } else if (!res.success.length && !res.failed.length) {
-    ctx.helper.fail({
-      data: [
-        {
-          reason: `请上传${translate[type]}！`,
-          fileName: ''
-        }
-      ],
-      msg: `${translate[type]}上传失败，请查看失败原因！`
-    });
+    ctx.throw(400, `${translate[type]}上传失败，请查看失败原因！`, [
+      {
+        reason: `请上传${translate[type]}！`,
+        fileName: ''
+      }
+    ]);
   } else {
     ctx.helper.success({
       data: res.success,
