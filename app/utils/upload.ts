@@ -23,6 +23,10 @@ const noFile = async (res: IRes, type: string, part: FileStream) => {
   await sendToWormhole(part);
 };
 
+const getVideoPath = (type, fileName) => {
+  return path.join(path.normalize(__dirname + '../../..'), `uploadFile/${type}/${fileName}`);
+};
+
 export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string[]) => {
   const res: IRes = {
     success: [],
@@ -82,7 +86,7 @@ export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string
       let result;
       try {
         // 创建文件写入流
-        const remoteFileStream = fs.createWriteStream(`../../uploadFile/${type}/${fileName}`);
+        const remoteFileStream = fs.createWriteStream(getVideoPath(type, fileName));
         // 以管道方式写入流
         result = await part.pipe(remoteFileStream);
         // result = await ctx.oss.put('~/uploadFile' + part.filename, part);
