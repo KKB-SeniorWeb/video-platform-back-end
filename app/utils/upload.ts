@@ -58,7 +58,9 @@ export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string
       // 文件处理，上传到云存储等等
       // console.log(await fromStream(part));
       // fromStream 必须要用变量存储 如果不存储后续获取的文件类型会错误
+      console.log(part);
       const realExt = await fromStream(part);
+      console.log(realExt);
       if (!rule.includes(realExt?.ext as string)) {
         res.failed.push({
           reason: `请上传正确格式的${translate[type]}！`,

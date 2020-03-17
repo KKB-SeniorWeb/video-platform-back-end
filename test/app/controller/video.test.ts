@@ -3,6 +3,10 @@ import { app } from 'egg-mock/bootstrap';
 import { VIDEO_UPLOAD } from '../../../app/const/';
 import * as path from 'path';
 
+function getVideoPath(fileName) {
+  return path.join(path.normalize(__dirname + '../../../..'), `uploadFile/upload/${fileName}`);
+}
+
 function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
   describe('videoData', () => {
     it('单文件未上传文件,应该失败', async () => {
@@ -14,6 +18,7 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
         .attach('', '');
 
       assertFail(result);
+      // assert(result.body.data[0].reason === '请上传视频！');
     });
     it('单文件后缀名与真实文件类型不符', async () => {
       const result = await app
@@ -21,12 +26,10 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
         .post(apiName)
         .set('content-type', 'multipart/form-data')
         .field('name', 'this_file')
-        .attach(
-          'this_file',
-          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/2020.02.18.21.05.html')
-        );
+        .attach('this_file', getVideoPath('2020.02.18.21.05.html'));
 
       assertFail(result);
+      // assert(result.body.data[0].reason === '该视频后缀不符合真实后缀，求修改后重新上传！');
     });
     it('单视频上传成功！', async () => {
       const result = await app
@@ -34,10 +37,7 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
         .post(apiName)
         .set('content-type', 'multipart/form-data')
         .field('name', 'this_file')
-        .attach(
-          'this_file',
-          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/EV~2020.02.18~21.06.30.mp4')
-        );
+        .attach('this_file', getVideoPath('EV~2020.02.18~21.06.30.mp4'));
 
       assertSuccess(result);
       assert(result.body.data[0].videoName === 'EV~2020.02.18~21.06.30.mp4');
@@ -48,14 +48,8 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
         .post(apiName)
         .set('content-type', 'multipart/form-data')
         .field('name', 'this_file')
-        .attach(
-          'this_file',
-          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/2020.02.18.21.05.html')
-        )
-        .attach(
-          'this_file',
-          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/EV~2020.02.18~21.42.47.mp4')
-        );
+        .attach('this_file', getVideoPath('2020.02.18.21.05.html'))
+        .attach('this_file', getVideoPath('EV~2020.02.18~21.42.47.mp4'));
 
       assertBoth(result);
       assert(result.body.data.success[0].videoName === 'EV~2020.02.18~21.42.47.mp4');
@@ -67,14 +61,8 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
         .post(apiName)
         .set('content-type', 'multipart/form-data')
         .field('name', 'this_file')
-        .attach(
-          'this_file',
-          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/EV~2020.02.18~21.06.30.mp4')
-        )
-        .attach(
-          'this_file',
-          path.join(path.normalize(__dirname + '../../../..'), 'uploadFile/video/EV~2020.02.18~21.42.47.mp4')
-        );
+        .attach('this_file', getVideoPath('EV~2020.02.18~21.06.30.mp4'))
+        .attach('this_file', getVideoPath('EV~2020.02.18~21.42.47.mp4'));
 
       assertSuccess(result);
       assert(result.body.data[0].videoName === 'EV~2020.02.18~21.06.30.mp4');
@@ -84,16 +72,10 @@ function uploadFileByStream(apiName, assertSuccess, assertFail, assertBoth) {
 }
 
 describe('test/app/controller/video.test.ts', async () => {
-  // beforeEach(() => {
-  //   app.mockService('video', 'upload', () => {
-  //     return false;
-  //   });
-  // });
-  // afterEach(mock.restore);
   const apiName = VIDEO_UPLOAD;
 
   const assertFail = result => {
-    assert(result.status === 200);
+    assert(result.status === 400);
     assert(result.body.code === 0);
     assert(result.body.msg === '视频上传失败，请查看失败原因！');
   };
