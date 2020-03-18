@@ -3,9 +3,11 @@
 
 import 'egg';
 import ExportErrorHandler from '../../../app/middleware/error-handler';
+import ExportPermissionsValidation from '../../../app/middleware/permissions-validation';
 
 declare module 'egg' {
   interface IMiddleware {
     errorHandler: typeof ExportErrorHandler;
+    permissionsValidation: typeof ExportPermissionsValidation;
   }
 }

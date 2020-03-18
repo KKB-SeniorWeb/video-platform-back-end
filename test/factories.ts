@@ -5,7 +5,12 @@ export const setup = app => {
   app.factory = factory;
   // 定义 user 和默认数据
   factory.define('user', app.model.User, {
-    username: factory.sequence('User.username', n => `username_${n}`)
+    id: Date.now() + '_id',
+    username: factory.sequence('User.username', n => `username_${n}`),
+    password: '123456',
+    nickname: factory.sequence('User.nickname', n => `nickname_${n}`),
+    avatar: 'test',
+    role: 'master'
   });
 };
 
