@@ -12,7 +12,7 @@
     "stop": "egg-scripts stop --title=egg-server-video-platform-back-end",
     "dev": "egg-bin dev",
     "test-local-watch": "egg-bin test --watch-extensions ts --watch --file ./test/.setup.ts",
-    "test-local": "egg-bin test --file ./test/.setup.ts --full-trace",
+    "test-local": "egg-bin test --file ./test/.setup.ts",
     "test": "npm run lint -- --fix && npm run test-local",
     "cov": "egg-bin cov",
     "tsc": "ets && tsc -p tsconfig.json",
@@ -61,6 +61,7 @@
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
     "sequelize-cli": "^5.5.1",
+    "sinon": "^9.0.1",
     "tslib": "^1.9.0",
     "typescript": "^3.0.0"
   },
