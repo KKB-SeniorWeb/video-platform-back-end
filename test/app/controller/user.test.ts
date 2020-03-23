@@ -33,9 +33,8 @@ describe('test/app/controller/user.test.ts', () => {
       app.mockService('user', 'findOne', () => Promise.resolve(userEntity));
       const result = await app
         .httpRequest()
-        .post(`/users/${userEntity.id}`)
+        .get(`/users/:id`)
         .set('Authorization', 'Bearer ' + token)
-        .set('id', userEntity.id)
         .send();
 
       // then
