@@ -21,9 +21,8 @@ module.exports = (roles: string[]) => {
     const role = getUserRole(ctx);
     const canVisit = roles.includes(role);
     if (canVisit) {
-      next();
-    } else {
-      ctx.throw(401, '没有权限访问');
+      return next();
     }
+    ctx.throw(401, '没有权限访问');
   };
 };

@@ -28,7 +28,6 @@ export default class UserService extends Service {
   }
 
   public async findAll(page, limit) {
-    this.checkFindAllPermissions();
     const queryOption = this.getFindAllQueryOption(page, limit);
     const userEntityList = await this.ctx.model.User.findAll(queryOption);
     return userEntityList.map(entity => entity.toJSON());
@@ -37,6 +36,19 @@ export default class UserService extends Service {
   public async getUserTotalNumber() {
     const userList = await this.ctx.model.User.findAll();
     return userList.length;
+  }
+
+  public async deleteUser(id) {
+    this.checkDeleteUIdIsSelf(id);
+    const result = await this.ctx.model.User.destroy({ where: { id } });
+    return Boolean(result);
+  }
+
+  private checkDeleteUIdIsSelf(id) {
+    const { uId: selfUId } = this.ctx.service.jwt.getTokenInfo();
+    if (selfUId === id) {
+      this.ctx.throw(400, '不能删除自己');
+    }
   }
 
   private getFindAllQueryOption(page: number, limit: number) {
@@ -49,13 +61,6 @@ export default class UserService extends Service {
 
   private getQueryOffset(page: number, limit: number) {
     return Math.max(0, (page - 1) * limit);
-  }
-
-  private checkFindAllPermissions() {
-    const { role } = this.ctx.service.jwt.getTokenInfo();
-    if (this.isUserOfRole(role)) {
-      this.throwNoPermissionError();
-    }
   }
 
   private checkFindOnePermissions(findUId) {

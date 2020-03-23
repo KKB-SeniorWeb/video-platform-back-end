@@ -33,7 +33,7 @@ describe('test/app/controller/user.test.ts', () => {
       app.mockService('user', 'findOne', () => Promise.resolve(userEntity));
       const result = await app
         .httpRequest()
-        .get(`/users/:id`)
+        .get(`/users/${userEntity.id}`)
         .set('Authorization', 'Bearer ' + token)
         .send();
 
@@ -67,6 +67,27 @@ describe('test/app/controller/user.test.ts', () => {
       assert(result.status === 200);
       assert(reqData.userLen === userTotalNumber);
       assertEqualToUserVo(reqData.data[0]);
+    });
+  });
+
+  describe('删除用户', () => {
+    it('管理员可以删除指定用户', async () => {
+      // given
+      const token = generateToken(Role.Admin);
+      const entity = createUserEntity();
+
+      // when
+      app.mockService('user', 'deleteUser', () => Promise.resolve(true));
+      const result = await app
+        .httpRequest()
+        .delete(`/users/${entity.id}`)
+        .set('Authorization', 'Bearer ' + token)
+        .send();
+
+      // then
+      const reqData = result.body.data;
+      assert(result.status === 200);
+      assert(reqData);
     });
   });
 });

@@ -15,14 +15,15 @@ function videoRouter(app) {
 }
 
 function userRouter(app) {
-  const { controller, router } = app;
-  // const { controller, router, middleware } = app;
-  // const adminAndMasterRequired = middleware.permissionsValidation(['admin', 'master']);
+  const { controller, router, middleware } = app;
+  const adminAndMasterRequired = middleware.permissionsValidation(['admin', 'master']);
 
   // 查询单个用户
   router.get(`${USER}/:id`, app.jwt, controller.user.findOne);
   // 查看用户列表
-  router.get(USER, app.jwt, controller.user.findAll);
+  router.get(USER, app.jwt, adminAndMasterRequired, controller.user.findAll);
+  // 删除用户
+  router.delete(`${USER}/:id`, app.jwt, adminAndMasterRequired, controller.user.deleteUser);
 }
 
 export default (app: Application) => {

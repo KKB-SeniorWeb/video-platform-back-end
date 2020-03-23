@@ -102,14 +102,35 @@ describe('test/app/service/user.test.js', () => {
         })
       );
     });
-    it('如果是普通用户的话，不可以查询用户列表,将抛出错误', async () => {
-      setTokenToHeader(uId, 'user');
+  });
 
+  describe('删除用户', () => {
+    beforeEach(() => {
+      mock(app.model.User, 'destroy', sinon.fake.resolves(true));
+    });
+    it('管理员可以删除指定的用户', async () => {
+      const otherUId = 'abc';
+
+      setTokenToHeader(uId, 'admin');
+      const result = await ctx.service.user.deleteUser(otherUId);
+      assert(result);
+      assert(
+        ctx.model.User.destroy.calledWith({
+          where: {
+            id: otherUId
+          }
+        })
+      );
+    });
+
+    it('不可以删除自己', async () => {
+      setTokenToHeader(uId, 'admin');
       try {
-        await ctx.service.user.findAll(1, 1);
+        await ctx.service.user.deleteUser(uId);
         assert.fail('应该抛出错误');
       } catch (e) {
-        assertNoPermission(e);
+        assert(e.status === 400);
+        assert(e.message === '不能删除自己');
       }
     });
   });

@@ -53,4 +53,12 @@ export default class UserController extends BaseController {
       }
     });
   }
+
+  public async deleteUser() {
+    const { id } = this.ctx.params;
+    const result = await this.ctx.service.user.deleteUser(id);
+    this.success({
+      data: result
+    });
+  }
 }
