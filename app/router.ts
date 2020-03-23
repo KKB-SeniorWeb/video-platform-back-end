@@ -19,8 +19,10 @@ function userRouter(app) {
   // const { controller, router, middleware } = app;
   // const adminAndMasterRequired = middleware.permissionsValidation(['admin', 'master']);
 
-  // 查找一个用户
+  // 查询单个用户
   router.post(`${USER}/:id`, app.jwt, controller.user.findOne);
+  // 查看用户列表
+  router.get(USER, app.jwt, controller.user.findAll);
 }
 
 export default (app: Application) => {

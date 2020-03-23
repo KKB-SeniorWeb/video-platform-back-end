@@ -1,10 +1,26 @@
 import BaseController from '../core/BaseController';
 
-interface UserVO {
-  id: string;
-  username: string;
-  nickname: string;
-  avatar: string;
+export class UserVo {
+  public id: string;
+  public username: string;
+  public nickname: string;
+  public avatar: string;
+
+  public constructor({ id, username, nickname, avatar }) {
+    this.id = id;
+    this.username = username;
+    this.nickname = nickname;
+    this.avatar = avatar;
+  }
+
+  public toJSON() {
+    return {
+      id: this.id,
+      username: this.username,
+      nickname: this.nickname,
+      avatar: this.avatar
+    };
+  }
 }
 
 /**
@@ -12,22 +28,29 @@ interface UserVO {
  */
 export default class UserController extends BaseController {
   /**
-   * @Summary 获取单个用户信息
+   * @Summary 查询单个用户
    */
   public async findOne() {
     const { id } = this.ctx.params;
-    const result = await this.ctx.service.user.findOne(id);
-    const userVO = this.toUserVO(result);
-    this.success({ data: userVO });
+    const userEntity = await this.ctx.service.user.findOne(id);
+    this.success({
+      data: new UserVo(userEntity)
+    });
   }
 
-  // 这里的 any 应该换成 userBO
-  private toUserVO(data: any): UserVO {
-    return {
-      id: data.id,
-      username: data.username,
-      nickname: data.nickname,
-      avatar: data.avatar
-    };
+  /**
+   * @Summary 查询用户列表
+   */
+  public async findAll() {
+    const { page = 1, limit = 10 } = this.ctx.query;
+    const userEntitys = await this.ctx.service.user.findAll(+page, +limit);
+    const userLen = await this.ctx.service.user.getUserTotalNumber();
+    const userVoList = userEntitys.map(entity => new UserVo(entity));
+    this.success({
+      data: {
+        data: userVoList,
+        userLen
+      }
+    });
   }
 }
