@@ -14,6 +14,7 @@
     "test-local-watch": "egg-bin test --watch-extensions ts --watch --file ./test/.setup.ts",
     "test-local": "egg-bin test --file ./test/.setup.ts",
     "test": "npm run lint -- --fix && npm run test-local",
+    "test:e2e":"egg-bin test --file ./test/.setup.ts ./test/e2e/**/*",
     "cov": "egg-bin cov",
     "tsc": "ets && tsc -p tsconfig.json",
     "ci": "npm run lint && npm run cov && npm run tsc",
