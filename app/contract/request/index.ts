@@ -16,5 +16,9 @@ module.exports = {
   },
   deleteVideoRequest: {
     paths: { type: 'object', required: true, example: '["http://...mp4", "http://...mp4"]' }
+  },
+  addCourseRequest:{
+    id:{type:'string',required: true, example: '1209384gjonsd'},
+    userId:{type:'string',required: true, example: 'fklscrirp39iu598tejofs'}
   }
 };

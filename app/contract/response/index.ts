@@ -35,5 +35,18 @@ module.exports = {
   deleteVideoResponse: {
     code: { type: 'number', example: 1 },
     msg: { type: 'string', example: '' }
+  },
+  addCourseResponse:{
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '' },
+    data: {
+      type: 'object',
+      example: {
+        id: { type: 'string', example: '123124125' },
+        watchTime:{type:'string',example:'2020-03-19 14:17:00'},
+        courseName:{type:'string',example:'教程名称-kaikeba'},
+        user_id: { type: 'string', example: '13425435' },
+      }
+    }
   }
 };
