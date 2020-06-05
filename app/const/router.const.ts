@@ -6,3 +6,4 @@ export const VIDEO_DELETE = '/video_delete';
 export const JOURNAL_ADD = '/journal_add';
 export const JOURNAL_GET = '/journal_get';
 export const JOURNAL_GETU = '/journal_getu';
+export const USER = '/users';

@@ -1,7 +1,7 @@
 interface ResponseData {
   msg?: string;
   code?: number;
-  data?: object;
+  data?: object | boolean;
 }
 
 export default {

@@ -1,3 +1,17 @@
+/**
+ *返回 err 对象的错误数据
+ * 返回优先级 err.data > err.errors
+ * @param {*} err
+ * @return
+ */
+function getErrorData(err) {
+  if (err.data) {
+    return err.data;
+  }
+  if (err.errors) {
+    return err.errors;
+  }
+}
 module.exports = () => {
   return async function errorHandler(ctx, next) {
     try {
@@ -10,10 +24,9 @@ module.exports = () => {
       // 生产环境时 500 错误的详细错误内容不返回给客户端，因为可能包含敏感信息
       const errorMsg = status === 500 && ctx.app.config.env === 'prod' ? 'Internal Server Error' : err.message;
 
-      // 从 error 对象上读出各个属性，设置到响应中
       ctx.helper.fail({
         msg: errorMsg,
-        data: err.errors
+        data: getErrorData(err)
       });
 
       ctx.status = status;

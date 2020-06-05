@@ -1,8 +1,7 @@
 {
   "name": "video-platform-back-end",
   "version": "1.0.0",
-  "description": "",
-  "private": true,
+  "description": "开课吧视频平台后端项目 基于 egg.js 搭建",
   "egg": {
     "typescript": true,
     "declarations": true
@@ -12,8 +11,9 @@
     "stop": "egg-scripts stop --title=egg-server-video-platform-back-end",
     "dev": "egg-bin dev",
     "test-local-watch": "egg-bin test --watch-extensions ts --watch --file ./test/.setup.ts",
-    "test-local": "egg-bin test --file ./test/.setup.ts --full-trace",
+    "test-local": "egg-bin test --file ./test/.setup.ts",
     "test": "npm run lint -- --fix && npm run test-local",
+    "test:e2e": "egg-bin test --file ./test/.setup.ts ./test/e2e/**/*",
     "cov": "egg-bin cov",
     "tsc": "ets && tsc -p tsconfig.json",
     "ci": "npm run lint && npm run cov && npm run tsc",
@@ -61,6 +61,7 @@
     "lint-staged": "^10.0.8",
     "prettier": "^1.19.1",
     "sequelize-cli": "^5.5.1",
+    "sinon": "^9.0.1",
     "tslib": "^1.9.0",
     "typescript": "^3.0.0"
   },
@@ -72,12 +73,12 @@
   },
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/KKB-SeniorWeb/video-platform-back-end"
   },
   "eslintIgnore": [
     "coverage"
   ],
-  "author": "",
+  "author": "cuixiaorui",
   "license": "MIT",
   "config": {
     "commitizen": {
