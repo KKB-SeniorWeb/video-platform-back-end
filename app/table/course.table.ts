@@ -1,13 +1,12 @@
 module.exports = function(Sequelize) {
-  const { STRING, DATE } = Sequelize;
+  const { STRING, INTEGER, DATE } = Sequelize;
 
   return {
     id: { type: STRING(70), primaryKey: true },
-    user_id:STRING(100),
-    course_name:STRING(30),
-    watch_at:DATE,
+    name: STRING(30),
+    path: STRING(100),
+    visitor_number: INTEGER(100),
     created_at: DATE,
     updated_at: DATE
   };
 };
-//这里table导出数据库字段

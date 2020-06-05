@@ -1,1 +1,10 @@
-export { SIGNUP, SIGNUP_CHECK, SIGNIN, VIDEO_UPLOAD, VIDEO_DELETE,COURASE_ADD } from './router.const';
+export {
+  SIGNUP,
+  SIGNUP_CHECK,
+  SIGNIN,
+  VIDEO_UPLOAD,
+  VIDEO_DELETE,
+  JOURNAL_ADD,
+  JOURNAL_GET,
+  JOURNAL_GETU
+} from './router.const';

@@ -17,8 +17,27 @@ module.exports = {
   deleteVideoRequest: {
     paths: { type: 'object', required: true, example: '["http://...mp4", "http://...mp4"]' }
   },
-  addCourseRequest:{
-    id:{type:'string',required: true, example: '1209384gjonsd'},
-    userId:{type:'string',required: true, example: 'fklscrirp39iu598tejofs'}
+  journalAddRequest: {
+    id: { type: 'string', required: true, example: 'jiaochengid' },
+    user_id: { type: 'string', required: true, example: 'yonghuid' },
+    type: { type: 'int', required: false, example: 1 },
+    start: { type: 'int', required: false, example: 59875846285748 },
+    stop: { type: 'int', required: false, example: 84923789673 }
+  },
+  journalGetRequest: {
+    id: { type: 'string', required: true, example: '教程id' },
+    type: { type: 'int', required: false, example: 1 },
+    start: { type: 'int', required: false, example: 18237458723882 },
+    stop: { type: 'int', required: false, example: 18237458723882 },
+    limit: { type: 'int', required: false, example: 20 },
+    offset: { type: 'int', required: false, example: 1 }
+  },
+  journalGetURequest: {
+    user_id: { type: 'string', required: true, example: '用户id' },
+    type: { type: 'int', required: false, example: 1 },
+    start: { type: 'int', required: false, example: 18237458723882 },
+    stop: { type: 'int', required: false, example: 18237458723882 },
+    limit: { type: 'int', required: false, example: 20 },
+    offset: { type: 'int', required: false, example: 1 }
   }
 };
