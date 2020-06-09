@@ -6,8 +6,8 @@ import {
   VIDEO_UPLOAD,
   VIDEO_DELETE,
   JOURNAL_ADD,
-  JOURNAL_GET,
-  JOURNAL_GETU,
+  JOURNAL_GETBYID,
+  JOURNAL_GETBYUSER,
   USER
 } from './const/index';
 
@@ -26,8 +26,8 @@ function videoRouter(app) {
 function journalRouter(app) {
   const { controller, router } = app;
   router.post(JOURNAL_ADD, controller.journal.add); // 观看记录添加
-  router.get(JOURNAL_GET, controller.journal.get); // 观看记录获取
-  router.get(JOURNAL_GETU, controller.journal.getu); // 根据userid获取观看记录
+  router.get(JOURNAL_GETBYID, controller.journal.getById); // 根据观看id获取观看记录
+  router.get(JOURNAL_GETBYUSER, controller.journal.getByUser); // 根据userid获取观看记录
 }
 
 function userRouter(app) {

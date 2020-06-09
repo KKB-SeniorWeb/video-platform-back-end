@@ -8,12 +8,10 @@ describe('test/app/service/Journal.test.ts', () => {
   before(async () => {
     ctx = app.mockContext();
   });
-  describe('getu 根据用户获取观看记录', () => {
+  describe('getByUserJournal 根据用户获取观看记录', () => {
     const parameter = {
       user_id: '用户id',
       type: 1,
-      start: Date.now(),
-      stop: Date.now(),
       limit: 20,
       offset: 1
     };
@@ -21,23 +19,19 @@ describe('test/app/service/Journal.test.ts', () => {
       mock(app.model.Journal, 'findAll', () => {
         return [];
       });
-      const resData = await ctx.service.journal.getuJournal(
+      const resData = await ctx.service.journal.getByUserJournal(
         parameter.user_id,
         parameter.type,
-        parameter.start,
-        parameter.stop,
         parameter.limit,
         parameter.offset
       );
       assert(resData);
     });
   });
-  describe('get 获取观看记录', () => {
+  describe('getbyid 获取观看记录', () => {
     const parameter = {
       id: '教程id',
       type: 1,
-      start: Date.now(),
-      stop: Date.now(),
       limit: 20,
       offset: 1
     };
@@ -45,11 +39,9 @@ describe('test/app/service/Journal.test.ts', () => {
       mock(app.model.Journal, 'findAll', () => {
         return [];
       });
-      const resData = await ctx.service.journal.getJournal(
+      const resData = await ctx.service.journal.getByIdJournal(
         parameter.id,
         parameter.type,
-        parameter.start,
-        parameter.stop,
         parameter.limit,
         parameter.offset
       );
@@ -99,12 +91,22 @@ describe('test/app/service/Journal.test.ts', () => {
         };
       });
 
+      mock(app.model.Journal, 'create', () => {
+        return {
+          toJSON() {
+            return {
+              user_id: account.user_id
+            };
+          }
+        };
+      });
+
       const resData = await ctx.service.journal.addJournal(
         account.id,
         account.user_id,
+        account.type,
         account.start,
-        account.stop,
-        account.type
+        account.stop
       );
       assert(resData.watch_name === '教程名称');
       assert(resData.user_id === account.user_id);

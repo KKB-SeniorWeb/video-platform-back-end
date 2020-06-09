@@ -24,19 +24,15 @@ module.exports = {
     start: { type: 'int', required: false, example: 59875846285748 },
     stop: { type: 'int', required: false, example: 84923789673 }
   },
-  journalGetRequest: {
+  journalGetByIdRequest: {
     id: { type: 'string', required: true, example: '教程id' },
-    type: { type: 'int', required: false, example: 1 },
-    start: { type: 'int', required: false, example: 18237458723882 },
-    stop: { type: 'int', required: false, example: 18237458723882 },
+    type: { type: 'int', required: true, example: 1 },
     limit: { type: 'int', required: false, example: 20 },
     offset: { type: 'int', required: false, example: 1 }
   },
-  journalGetURequest: {
+  journalGetByUserRequest: {
     user_id: { type: 'string', required: true, example: '用户id' },
-    type: { type: 'int', required: false, example: 1 },
-    start: { type: 'int', required: false, example: 18237458723882 },
-    stop: { type: 'int', required: false, example: 18237458723882 },
+    type: { type: 'int', required: true, example: 1 },
     limit: { type: 'int', required: false, example: 20 },
     offset: { type: 'int', required: false, example: 1 }
   }

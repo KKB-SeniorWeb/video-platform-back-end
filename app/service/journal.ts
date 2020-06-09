@@ -14,26 +14,36 @@ export default class JouralService extends Service {
    * 获取观看记录（教程/文章/视频）
    * @param id
    * @param type
-   * @param start
-   * @param stop
    * @param limit
    * @param offset
    */
-  public async getJournal(id, type, start, stop, limit, offset) {
-    const resData = await this.app.model.Journal.findAll({ where: { watch_id: id }, type, start, stop }, limit, offset);
+  //
+  public async getByIdJournal(id, type, limit, offset) {
+    console.log('--------', id, type);
+    const resData = await this.app.model.Journal.findAll({
+      where: { watch_id: id, type },
+      limit,
+      offset
+    });
     return resData;
   }
   /**
    * 根据用户获取观看记录（教程/文章/视频）
    * @param user_id
    * @param type
-   * @param start
-   * @param stop
    * @param limit
    * @param offset
    */
-  public async getuJournal(user_id, type, start, stop, limit, offset) {
-    const resData = await this.app.model.Journal.findAll({ where: user_id, type, start, stop }, limit, offset);
+  public async getByUserJournal(user_id, type, limit, offset) {
+    const resData = await this.app.model.Journal.findAll({
+      where: {
+        user_id,
+        type
+      },
+      limit,
+      offset
+    });
+
     return resData;
   }
   /**
@@ -44,9 +54,10 @@ export default class JouralService extends Service {
    * @param start
    * @param stop
    */
-  public async addJournal(id, user_id, start, stop, type): Promise<JournalSuccessResData> {
+  public async addJournal(id, user_id, type, start, stop): Promise<JournalSuccessResData> {
     // 添加观看记录
     const resData = await this.getData(id, type);
+
     if (!resData) {
       this.ctx.throw(400, '此 （教程/文章/视频） 已不存在');
     }
@@ -63,15 +74,6 @@ export default class JouralService extends Service {
     });
     return { ...result.toJSON(), watch_name: resData.name };
   }
-  // private verifyUser(user_id) {
-  //   const { ctx } = this;
-  //   const token = ctx.request.header.authorization;
-  //   //token  = {user_id,role}
-  //   if (!token) {
-  //     ctx.throw('未携带用户标识，禁止访问')
-  //   }
-  //   return JSON.parse(token).user_id === user_id
-  // }
   private async getData(id: any, type: any) {
     let resData;
     if (type === 1) {
