@@ -1,0 +1,56 @@
+name: Video-platform-Backend  CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    container:
+      image: node
+
+
+    services:
+      mysql:
+          image: mysql:5.7
+          env:
+              MYSQL_ROOT_PASSWORD: "123456"
+              MYSQL_DATABASE: video_platform_test
+          ports:
+              - 3306
+          options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install & Tests
+        run: |
+          npm i --registry=https://registry.npm.taobao.org
+          npm run db:migrate
+          npm test
+        env: 
+          NODE_ENV: test
+          MYSQL_HOST: mysql
+          MYSQL_DB: 'video_platform_test'
+  cd:
+    runs-on: ubuntu-latest
+    needs: ci
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Docker login
+        run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+      - name: Build
+        run: docker build -t video-platform-back-end .
+      - name: Tags
+        run: |
+          docker tag video-platform-back-end ${{ secrets.DOCKER_USER }}/video-platform-back-end:${{ github.sha }}
+          docker tag video-platform-back-end ${{ secrets.DOCKER_USER }}/video-platform-back-end:latest
+      - name: Push
+        run: |
+          docker push ${{ secrets.DOCKER_USER }}/video-platform-back-end:${{ github.sha }}
+          docker push ${{ secrets.DOCKER_USER }}/video-platform-back-end:latest
