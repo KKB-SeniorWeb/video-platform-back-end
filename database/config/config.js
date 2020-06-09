@@ -13,7 +13,8 @@ module.exports = () => ({
     username: 'root',
     password: '123456',
     database: 'video_platform_test',
-    host: '127.0.0.1',
+    host: MYSQL_HOST,
+    port: MYSQL_PORT,
     dialect: 'mysql',
     operatorsAliases: false
   },
