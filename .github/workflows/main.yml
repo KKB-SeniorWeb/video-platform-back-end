@@ -1,0 +1,40 @@
+name: Video-platform-Backend  CI/CD
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    container:
+      image: node
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install & Tests
+        run: |
+          npm i --registry=https://registry.npm.taobao.org
+          npm test
+#   cd:
+#     runs-on: ubuntu-latest
+#     needs: ci
+
+#     steps:
+#       - uses: actions/checkout@v1
+#       - name: Docker login
+#         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
+#       - name: Build
+#         run: docker build -t back .
+#       - name: Tags
+#         run: |
+#           docker tag back ${{ secrets.DOCKER_USER }}/back:${{ github.sha }}
+#           docker tag back ${{ secrets.DOCKER_USER }}/back:latest
+#       - name: Push
+#         run: |
+#           docker push ${{ secrets.DOCKER_USER }}/back:${{ github.sha }}
+#           docker push ${{ secrets.DOCKER_USER }}/back:latest
