@@ -1,6 +1,6 @@
 import * as assert from 'assert';
 import { app } from 'egg-mock/bootstrap';
-import { JOURNAL_ADD, JOURNAL_GET, JOURNAL_GETU } from '../../../app/const/index';
+import { JOURNAL_ADD, JOURNAL_GETBYUSER, JOURNAL_GETBYID } from '../../../app/const/index';
 
 function createJournal(info = {}) {
   const defaultInfo = {
@@ -12,60 +12,46 @@ function createJournal(info = {}) {
   };
   return Object.assign({}, defaultInfo, info);
 }
-function getParmas(info = {}) {
+function getByIdParmas(info = {}) {
   const defaultInfo = {
     id: '教程id',
     type: 1,
-    start: Date.now(),
-    stop: Date.now(),
     limit: 20,
     offset: 1
   };
   return Object.assign({}, defaultInfo, info);
 }
-function getuParmas(info = {}) {
+function getByUserParmas(info = {}) {
   const defaultInfo = {
     user_id: '用户id',
     type: 1,
-    start: Date.now(),
-    stop: Date.now(),
     limit: 20,
     offset: 1
   };
   return Object.assign({}, defaultInfo, info);
 }
-// e2e:
-// given
-// 准备要做的事情
-// when
-// 当添加记录时 -- (是否正确接收参数)  --  controller
-// then
-// 和正确结果作出比较，会有多少种情况
-
-// success  -> response //先考虑成功情况
-// fail  -> validate //再与错误情况做对比 相应处理边缘
 
 describe('test/app/controller/journal.test.js', () => {
   describe('journal 根据用户获取观看记录', () => {
-    const apiName = JOURNAL_GETU;
+    const apiName = JOURNAL_GETBYUSER;
     describe('user_id', async () => {
       it('当用户id为空时 返回用户id不能为空的消息', async () => {
         const result = await app
           .httpRequest()
           .get(apiName)
-          .send(getuParmas({ user_id: '' }));
+          .send(getByUserParmas({ user_id: '' }));
 
         assert(result.body.code === 0);
       });
     });
     it('根据用户获取观看记录成功', async () => {
-      app.mockService('journal', 'getuJournal', () => {
+      app.mockService('journal', 'getByUserJournal', () => {
         return true;
       });
       const result = await app
         .httpRequest()
         .get(apiName)
-        .send(getuParmas());
+        .send(getByUserParmas());
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');
@@ -73,24 +59,24 @@ describe('test/app/controller/journal.test.js', () => {
     });
   });
   describe('journal 获取观看记录', () => {
-    const apiName = JOURNAL_GET;
+    const apiName = JOURNAL_GETBYID;
     describe('教程id', async () => {
       it('当观看的（教程）id为空时 返回教程id不能为空的消息', async () => {
         const result = await app
           .httpRequest()
           .get(apiName)
-          .send(getParmas({ id: '' }));
+          .send(getByIdParmas({ id: '' }));
         assert(result.body.code === 0);
       });
     });
     it('获取观看记录成功', async () => {
-      app.mockService('journal', 'getJournal', () => {
+      app.mockService('journal', 'getByIdJournal', () => {
         return true;
       });
       const result = await app
         .httpRequest()
         .get(apiName)
-        .send(getParmas());
+        .send(getByIdParmas());
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');

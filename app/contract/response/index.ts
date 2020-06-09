@@ -50,7 +50,7 @@ module.exports = {
       }
     }
   },
-  journalGetResponse: {
+  journalGetByIdResponse: {
     code: { type: 'number', example: 1 },
     msg: { type: 'string', example: '获取观看记录成功' },
     data: {
@@ -74,7 +74,7 @@ module.exports = {
       ]
     }
   },
-  journalGetUResponse: {
+  journalGetByUserResponse: {
     code: { type: 'number', example: 1 },
     msg: { type: 'string', example: '获取观看记录成功' },
     data: {
