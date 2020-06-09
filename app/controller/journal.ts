@@ -3,7 +3,6 @@ import BaseController from '../core/BaseController';
 /**
  * @Controller
  */
-// 校验参数 // 校验接口返回值res
 export default class JournalController extends BaseController {
   /**
    * @Summary 添加观看记录

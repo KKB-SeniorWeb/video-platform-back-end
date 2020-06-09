@@ -2,7 +2,7 @@ import { Service } from 'egg';
 import { v4 as uuidv4 } from 'uuid';
 
 interface JournalSuccessResData {
-  id: string; // 返回日志id
+  id: string;
   start: number;
   stop: number;
   watch_name: string;
@@ -19,7 +19,6 @@ export default class JouralService extends Service {
    */
   //
   public async getByIdJournal(id, type, limit, offset) {
-    console.log('--------', id, type);
     const resData = await this.app.model.Journal.findAll({
       where: { watch_id: id, type },
       limit,
@@ -55,15 +54,11 @@ export default class JouralService extends Service {
    * @param stop
    */
   public async addJournal(id, user_id, type, start, stop): Promise<JournalSuccessResData> {
-    // 添加观看记录
     const resData = await this.getData(id, type);
 
     if (!resData) {
       this.ctx.throw(400, '此 （教程/文章/视频） 已不存在');
     }
-    // if (!this.verifyUser(user_id)) {
-    //   this.ctx.throw('携带用户标识错误，禁止访问')
-    // }
     const result = await this.app.model.Journal.create({
       id: uuidv4(),
       user_id,
@@ -77,13 +72,10 @@ export default class JouralService extends Service {
   private async getData(id: any, type: any) {
     let resData;
     if (type === 1) {
-      // 教程 查数据库表
       resData = await this.findOneWith(this.app.model.Course, id);
     } else if (type === 2) {
-      // 文章 查数据库表
       resData = await this.findOneWith(this.app.model.Article, id);
     } else if (type === 3) {
-      // 视频 查数据库表
       resData = await this.findOneWith(this.app.model.Video, id);
     }
     return resData;
