@@ -99,6 +99,16 @@ describe('test/app/service/Journal.test.ts', () => {
         };
       });
 
+      mock(app.model.Journal, 'create', () => {
+        return {
+          toJSON() {
+            return {
+              user_id: account.user_id
+            };
+          }
+        };
+      });
+
       const resData = await ctx.service.journal.addJournal(
         account.id,
         account.user_id,
