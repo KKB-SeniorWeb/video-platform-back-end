@@ -49,13 +49,10 @@ jobs:
           rm -rf node_modules
         env: 
           NODE_ENV: development
-
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASSWORD }}
-
       - name: Build docker image
         run: docker build -t video-platform-back-end .
-
       - name: Tags
         run: |
           docker tag video-platform-back-end ${{ secrets.DOCKER_USER }}/video-platform-back-end:${{ github.sha }}
@@ -64,20 +61,15 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USER }}/video-platform-back-end:${{ github.sha }}
           docker push ${{ secrets.DOCKER_USER }}/video-platform-back-end:latest
-
-      - name: copy docker-compose.yml to server
-        uses: appleboy/scp-action@master
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          source: "./docker-compose.yml"
-          target: "/home/kkb/video-platform-back-end/"
-  
-        - name: executing docker-compose on server
-          uses: appleboy/ssh-action@master
-          with:
-            host: ${{ secrets.REMOTE_HOST }}
-            username: ${{ secrets.REMOTE_USER }}
-            password: ${{ secrets.PASSWORD }}
-            script: cd /home/kkb/video-platform-back-end && docker-compose down && docker-compose pull && docker-compose up -d
+          script: pwd
+      
+      # - name: deploy
+      #   run: |
+      #     把用于生产坏境的 docker-compose copy to server 上
+      #     docker-compose down && docker-compose build --no-cache && docker-compose up
