@@ -27,6 +27,15 @@ export class UserVo {
  * @Controller
  */
 export default class UserController extends BaseController {
+  public test() {
+    this.success({
+      data: {
+        name: 'test',
+        success: 'ok'
+      }
+    });
+  }
+
   /**
    * @Summary 查询单个用户
    */

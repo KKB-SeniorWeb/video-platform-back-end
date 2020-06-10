@@ -34,6 +34,8 @@ function userRouter(app) {
   const { controller, router, middleware } = app;
   const adminAndMasterRequired = middleware.permissionsValidation(['admin', 'master']);
 
+  // 测试 cd 逻辑 （需要删除）
+  router.get(`/user_test`, controller.user.test);
   // 查询单个用户
   router.get(`${USER}/:id`, app.jwt, controller.user.findOne);
   // 查看用户列表
