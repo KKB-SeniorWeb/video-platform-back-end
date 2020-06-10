@@ -74,4 +74,4 @@ jobs:
           host: ${{ secrets.REMOTE_HOST }}
           username: ${{ secrets.REMOTE_USER }}
           password: ${{ secrets.PASSWORD }}
-          script: cd /home/kkb/video_platform_back_end && docker-compose down && docker-compose pull && docker-compose up -d
+          script: cd /home/kkb/video-platform-back-end && docker-compose down && docker-compose pull && docker-compose up -d
