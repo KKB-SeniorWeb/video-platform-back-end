@@ -5,15 +5,27 @@ import BaseController from '../core/BaseController';
  */
 export default class JournalController extends BaseController {
   /**
-   * @Summary 添加观看记录
-   * @Router POST /journal_add
+   * @Summary 添加教程观看记录
+   * @Router POST /journal/add/course
+   * @Request body journalAddRequest *body
+   * @Response 200 journalAddResponse success
+   */
+  /**
+   * @Summary 添加视频观看记录
+   * @Router POST /journal/add/video
+   * @Request body journalAddRequest *body
+   * @Response 200 journalAddResponse success
+   */
+  /**
+   * @Summary 添加文章观看记录
+   * @Router POST /journal/add/article
    * @Request body journalAddRequest *body
    * @Response 200 journalAddResponse success
    */
   public async add() {
-    const { id, user_id, type, start, stop } = this.ctx.request.body;
+    const { id, userId, start, stop } = this.ctx.request.body;
     this.ctx.validate(this.addRule());
-    const resData = await this.ctx.service.journal.addJournal(id, user_id, type, start, stop);
+    const resData = await this.ctx.service.journal.add(id, userId, start, stop);
     this.success({
       code: 1,
       msg: '添加观看记录成功',
@@ -21,15 +33,27 @@ export default class JournalController extends BaseController {
     });
   }
   /**
-   * @Summary 获取观看记录
-   * @Router GET /journal_getbyid
+   * @Summary 查询教程观看记录
+   * @Router GET /journal/id/course
+   * @Request body journalGetByIdRequest *body
+   * @Response 200 journalGetByIdResponse success
+   */
+  /**
+   * @Summary 查询视频观看记录
+   * @Router GET /journal/id/video
+   * @Request body journalGetByIdRequest *body
+   * @Response 200 journalGetByIdResponse success
+   */
+  /**
+   * @Summary 查询文章观看记录
+   * @Router GET /journal/id/article
    * @Request body journalGetByIdRequest *body
    * @Response 200 journalGetByIdResponse success
    */
   public async getById() {
-    const { id, type, limit, offset } = this.ctx.request.body;
+    const { id, limit, offset } = this.ctx.request.body;
     this.ctx.validate(this.getRule('id'));
-    const resData = await this.ctx.service.journal.getByIdJournal(id, type, limit, offset);
+    const resData = await this.ctx.service.journal.getById(id, limit, offset);
     this.success({
       code: 1,
       msg: '获取观看记录成功',
@@ -37,15 +61,27 @@ export default class JournalController extends BaseController {
     });
   }
   /**
-   * @Summary 获取观看记录
-   * @Router GET /journal_getbyuser
+   * @Summary 查询用户的教程观看记录
+   * @Router GET /journal/user/course
+   * @Request body journalGetByUserRequest *body
+   * @Response 200 journalGetByUserResponse success
+   */
+  /**
+   * @Summary 查询用户的获取视频观看记录
+   * @Router GET /journal/user/video
+   * @Request body journalGetByUserRequest *body
+   * @Response 200 journalGetByUserResponse success
+   */
+  /**
+   * @Summary 查询用户的获取文章观看记录
+   * @Router GET /journal/user/article
    * @Request body journalGetByUserRequest *body
    * @Response 200 journalGetByUserResponse success
    */
   public async getByUser() {
-    const { user_id, type, limit, offset } = this.ctx.request.body;
-    this.ctx.validate(this.getRule('user_id'));
-    const resData = await this.ctx.service.journal.getByUserJournal(user_id, type, limit, offset);
+    const { userId, limit, offset } = this.ctx.request.body;
+    this.ctx.validate(this.getRule('userId'));
+    const resData = await this.ctx.service.journal.getByUser(userId, limit, offset);
     this.success({
       code: 1,
       msg: '获取观看记录成功',
@@ -72,7 +108,7 @@ export default class JournalController extends BaseController {
         type: 'string',
         required: true
       },
-      user_id: {
+      userId: {
         type: 'string',
         required: true
       }

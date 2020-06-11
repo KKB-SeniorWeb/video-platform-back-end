@@ -6,9 +6,10 @@ import {
   VIDEO_UPLOAD,
   VIDEO_DELETE,
   JOURNAL_ADD,
-  JOURNAL_GETBYID,
-  JOURNAL_GETBYUSER,
-  USER
+  JOURNAL_ID,
+  JOURNAL_USER,
+  USER,
+  ARTICLE_CREATE
 } from './const/index';
 
 function signRouter(app) {
@@ -25,9 +26,14 @@ function videoRouter(app) {
 }
 function journalRouter(app) {
   const { controller, router } = app;
-  router.post(JOURNAL_ADD, controller.journal.add); // 观看记录添加
-  router.get(JOURNAL_GETBYID, controller.journal.getById); // 根据观看id获取观看记录
-  router.get(JOURNAL_GETBYUSER, controller.journal.getByUser); // 根据userid获取观看记录
+  router.post(`${JOURNAL_ADD}/:type`, controller.journal.add);
+  router.get(`${JOURNAL_ID}/:type`, controller.journal.getById);
+  router.get(`${JOURNAL_USER}/:type`, controller.journal.getByUser);
+}
+function articleRouter(app) {
+  const { controller, router, middleware } = app;
+  const adminAndMasterRequired = middleware.permissionsValidation(['admin', 'master']);
+  router.post(ARTICLE_CREATE, app.jwt, adminAndMasterRequired, controller.article.create);
 }
 
 function userRouter(app) {
@@ -47,4 +53,5 @@ export default (app: Application) => {
   videoRouter(app);
   journalRouter(app);
   userRouter(app);
+  articleRouter(app);
 };

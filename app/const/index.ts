@@ -6,6 +6,7 @@ export {
   VIDEO_DELETE,
   USER,
   JOURNAL_ADD,
-  JOURNAL_GETBYID,
-  JOURNAL_GETBYUSER
+  JOURNAL_ID,
+  JOURNAL_USER,
+  ARTICLE_CREATE
 } from './router.const';

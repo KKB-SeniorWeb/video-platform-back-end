@@ -6,21 +6,20 @@ interface JournalSuccessResData {
   start: number;
   stop: number;
   watch_name: string;
-  user_id: string;
+  userId: string;
 }
 
 export default class JouralService extends Service {
   /**
    * 获取观看记录（教程/文章/视频）
    * @param id
-   * @param type
    * @param limit
    * @param offset
    */
   //
-  public async getByIdJournal(id, type, limit, offset) {
+  public async getById(id, limit, offset) {
     const resData = await this.app.model.Journal.findAll({
-      where: { watch_id: id, type },
+      where: { watch_id: id, type: this.getType() },
       limit,
       offset
     });
@@ -28,16 +27,15 @@ export default class JouralService extends Service {
   }
   /**
    * 根据用户获取观看记录（教程/文章/视频）
-   * @param user_id
-   * @param type
+   * @param userId
    * @param limit
    * @param offset
    */
-  public async getByUserJournal(user_id, type, limit, offset) {
+  public async getByUser(userId, limit, offset) {
     const resData = await this.app.model.Journal.findAll({
       where: {
-        user_id,
-        type
+        user_id: userId,
+        type: this.getType()
       },
       limit,
       offset
@@ -48,26 +46,34 @@ export default class JouralService extends Service {
   /**
    * 添加观看记录（教程/文章/视频）
    * @param id
-   * @param user_id
-   * @param type
+   * @param userId
    * @param start
    * @param stop
    */
-  public async addJournal(id, user_id, type, start, stop): Promise<JournalSuccessResData> {
-    const resData = await this.getData(id, type);
-
+  public async add(id, userId, start, stop): Promise<JournalSuccessResData> {
+    const resData = await this.getData(id, this.getType());
     if (!resData) {
       this.ctx.throw(400, '此 （教程/文章/视频） 已不存在');
     }
     const result = await this.app.model.Journal.create({
       id: uuidv4(),
-      user_id,
+      user_id: userId,
       start,
       stop,
-      type,
+      type: this.getType(),
       watch_id: resData.id
     });
     return { ...result.toJSON(), watch_name: resData.name };
+  }
+  private async getType() {
+    const { type } = this.ctx.params;
+    if (type === 'course') {
+      return 1;
+    } else if (type === 'video') {
+      return 2;
+    } else if (type === 'article') {
+      return 3;
+    }
   }
   private async getData(id: any, type: any) {
     let resData;

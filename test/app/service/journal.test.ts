@@ -8,10 +8,9 @@ describe('test/app/service/Journal.test.ts', () => {
   before(async () => {
     ctx = app.mockContext();
   });
-  describe('getByUserJournal 根据用户获取观看记录', () => {
+  describe('getByUser 根据用户获取观看记录', () => {
     const parameter = {
-      user_id: '用户id',
-      type: 1,
+      userId: '用户id',
       limit: 20,
       offset: 1
     };
@@ -19,19 +18,13 @@ describe('test/app/service/Journal.test.ts', () => {
       mock(app.model.Journal, 'findAll', () => {
         return [];
       });
-      const resData = await ctx.service.journal.getByUserJournal(
-        parameter.user_id,
-        parameter.type,
-        parameter.limit,
-        parameter.offset
-      );
+      const resData = await ctx.service.journal.getByUser(parameter.userId, parameter.limit, parameter.offset);
       assert(resData);
     });
   });
   describe('getbyid 获取观看记录', () => {
     const parameter = {
       id: '教程id',
-      type: 1,
       limit: 20,
       offset: 1
     };
@@ -39,12 +32,7 @@ describe('test/app/service/Journal.test.ts', () => {
       mock(app.model.Journal, 'findAll', () => {
         return [];
       });
-      const resData = await ctx.service.journal.getByIdJournal(
-        parameter.id,
-        parameter.type,
-        parameter.limit,
-        parameter.offset
-      );
+      const resData = await ctx.service.journal.getById(parameter.id, parameter.limit, parameter.offset);
       assert(resData);
     });
   });
@@ -52,8 +40,7 @@ describe('test/app/service/Journal.test.ts', () => {
   describe('add 添加观看记录', () => {
     const account = {
       id: '1',
-      user_id: '用户id',
-      type: 1,
+      userId: '用户id',
       start: Date.now(),
       stop: Date.now()
     };
@@ -67,7 +54,7 @@ describe('test/app/service/Journal.test.ts', () => {
           };
         });
         try {
-          await ctx.service.journal.addJournal(account.id, account.user_id, account.start, account.stop, account.type);
+          await ctx.service.journal.add(account.id, account.userId, account.start, account.stop);
           assert.fail('应该抛出错误');
         } catch (e) {
           assert(e.message === '此 （教程/文章/视频） 已不存在');
@@ -95,21 +82,15 @@ describe('test/app/service/Journal.test.ts', () => {
         return {
           toJSON() {
             return {
-              user_id: account.user_id
+              userId: account.userId
             };
           }
         };
       });
 
-      const resData = await ctx.service.journal.addJournal(
-        account.id,
-        account.user_id,
-        account.type,
-        account.start,
-        account.stop
-      );
+      const resData = await ctx.service.journal.add(account.id, account.userId, account.start, account.stop);
       assert(resData.watch_name === '教程名称');
-      assert(resData.user_id === account.user_id);
+      assert(resData.userId === account.userId);
     });
   });
 });
