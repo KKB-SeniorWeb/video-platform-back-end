@@ -253,4 +253,80 @@ describe('test/app/service/user.test.js', () => {
       });
     });
   });
+
+  describe('修改用户昵称', () => {
+    const nickname = '春去春又来';
+    describe('修改成功', () => {
+      let updateFakeFn;
+      beforeEach(() => {
+        // given
+        updateFakeFn = sinon.fake.resolves([1]);
+        mock(app.model.User, 'update', updateFakeFn);
+      });
+
+      afterEach(async () => {
+        // when
+        const result = await ctx.service.user.changeNickname({
+          id: uId,
+          nickname
+        });
+
+        // then
+        assert(result === 1);
+        assert(updateFakeFn.called);
+        assert(updateFakeFn.firstArg.nickname === nickname);
+      });
+      it('用户成功修改自己的昵称', async () => {
+        // given
+        setTokenToHeader(uId, Role.User);
+      });
+
+      it('管理员可以修改其他用户的昵称', async () => {
+        // given
+        setTokenToHeader('123456', Role.Master);
+      });
+    });
+
+    describe('修改失败', () => {
+      beforeEach(() => {
+        const updateFakeFn = sinon.fake.resolves([0]);
+        mock(app.model.User, 'update', updateFakeFn);
+      });
+      it('用户不可以修改其他人的昵称', async () => {
+        // given
+        setTokenToHeader('123456', Role.User);
+
+        try {
+          // when
+          await ctx.service.user.changeNickname({
+            id: uId,
+            nickname
+          });
+          assert.fail('应该报错');
+        } catch (e) {
+          // then
+          assert(e.status === 400);
+          assert(e.message === '没有权限');
+        }
+      });
+    });
+
+    it('昵称没有变化的话，修改失败', async () => {
+      // given
+      setTokenToHeader(uId, Role.User);
+
+      try {
+        // when
+        await ctx.service.user.changeNickname({
+          id: uId,
+          nickname
+        });
+        assert.fail('应该报错');
+      } catch (e) {
+        // then
+        assert(e.status === 400);
+        assert(e.message === '修改失败，昵称没有更新');
+      }
+    });
+  });
 });

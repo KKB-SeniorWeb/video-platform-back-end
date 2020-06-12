@@ -45,11 +45,41 @@ export default class UserService extends Service {
     return Boolean(result);
   }
 
-  public async changePassword({ id, newPassword, confirmPassword }) {
-    const { uId: currentUId, role } = this.ctx.service.jwt.getTokenInfo();
-    if (this.isUserOfRole(role) && currentUId !== id) {
-      this.throwNoPermissionError();
+  public async changeNickname({ id, nickname }) {
+    this.checkIsSelfUser(id, () => {
+      this.ctx.throw(400, '没有权限');
+    });
+
+    const [result] = await this.ctx.model.User.update(
+      {
+        nickname
+      },
+      {
+        where: {
+          id
+        }
+      }
+    );
+
+    if (result === 0) {
+      this.ctx.throw(400, '修改失败，昵称没有更新');
     }
+
+    return result;
+  }
+
+  private checkIsSelfUser(id: any, throwCallback: Function) {
+    const { uId: currentUId, role } = this.ctx.service.jwt.getTokenInfo();
+
+    if (this.isUserOfRole(role) && currentUId !== id) {
+      throwCallback();
+    }
+  }
+
+  public async changePassword({ id, newPassword, confirmPassword }) {
+    this.checkIsSelfUser(id, () => {
+      this.throwNoPermissionError();
+    });
 
     if (newPassword !== confirmPassword) {
       this.ctx.throw(400, '密码和确认密码不一致');

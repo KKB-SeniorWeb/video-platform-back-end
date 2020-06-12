@@ -63,11 +63,38 @@ export default class UserController extends BaseController {
   }
 
   public async update() {
-    const { newPassword } = this.ctx.request.body;
+    const { newPassword, nickname } = this.ctx.request.body;
 
     if (newPassword) {
       await this.changePassword();
     }
+
+    if (nickname) {
+      await this.changeNickname();
+    }
+  }
+
+  private async changeNickname() {
+    // todo
+    // nickname 必须为 昵称为6-12位中英文字符
+    this.ctx.validate({
+      nickname: {
+        required: true,
+        type: 'string'
+      }
+    });
+
+    const { id } = this.ctx.params;
+    const { nickname } = this.ctx.request.body;
+
+    await this.ctx.service.user.changeNickname({ id, nickname });
+
+    this.success({
+      msg: '修改成功',
+      data: {
+        nickname
+      }
+    });
   }
 
   private async changePassword() {
@@ -93,7 +120,7 @@ export default class UserController extends BaseController {
     });
 
     this.success({
-      msg: 'Change the password successfully'
+      msg: '修改成功'
     });
   }
 }

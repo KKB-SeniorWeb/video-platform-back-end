@@ -64,7 +64,7 @@ describe('test/app/controller/user.test.ts', () => {
       });
 
     // then
-    assert(result.body.msg === 'Change the password successfully');
+    assert(result.body.msg === '修改成功');
 
     const signinResult = await app
       .httpRequest()
@@ -78,7 +78,25 @@ describe('test/app/controller/user.test.ts', () => {
     assert(signinResult.body.msg === '登录成功');
     assert(signinResult.body.data);
   });
-  it.skip('修改用户昵称');
+
+  it('修改用户昵称', async () => {
+    // given
+    const nickname = '春去春又来';
+    // when
+    const result = await app
+      .httpRequest()
+      .patch(`/users/${userModel.id}`)
+      .set('Authorization', 'Bearer ' + token)
+      .expect(200)
+      .send({
+        nickname
+      });
+
+    // then
+    const userVo = result.body.data;
+    assert(result.body.msg === '修改成功');
+    assert(userVo.nickname === nickname);
+  });
   it.skip('修改用户头像');
   it.skip('开通管理员');
 });
