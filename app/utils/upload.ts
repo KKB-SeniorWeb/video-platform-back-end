@@ -16,7 +16,8 @@ const getVideoPath = (type, fileName) => {
 
 export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string[]) => {
   const stream = await ctx.getFileStream();
-  const fileName = path.basename(stream.filename);
+  // const fileName = path.basename(stream.filename);
+  const { video_name, video_cover } = stream.fields;
   // 文件处理，上传到云存储等等
   // console.log(await fromStream(part));
   // fromStream 必须要用变量存储 如果不存储后续获取的文件类型会错误
@@ -30,7 +31,7 @@ export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string
     // ext为文件后缀名(不带.) mime为文件类型
     realExt?.ext.toLowerCase() !==
     path
-      .extname(fileName)
+      .extname(video_name)
       .substr(1)
       .toLowerCase()
   ) {
@@ -39,7 +40,7 @@ export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string
   }
   let result;
   try {
-    const remoteFileStream = fs.createWriteStream(getVideoPath(type, fileName));
+    const remoteFileStream = fs.createWriteStream(getVideoPath(type, video_name));
     result = await stream.pipe(remoteFileStream);
     // result = await ctx.oss.put(name, stream);
   } catch (err) {
@@ -48,8 +49,9 @@ export const upload = async (ctx: Context, type: 'topic' | 'video', rule: string
     throw err;
   }
   const { id, video_name: videoName } = await ctx.service[type].upload({
+    video_cover,
     video_path: result.path,
-    video_name: fileName
+    video_name
   });
   console.log(result.path, stream.fields);
   const data = {
