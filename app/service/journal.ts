@@ -13,13 +13,14 @@ export default class JouralService extends Service {
   /**
    * 获取观看记录（教程/文章/视频）
    * @param id
+   * @param type
    * @param limit
    * @param offset
    */
   //
-  public async getById(id, limit, offset) {
+  public async getById(id, type, limit, offset) {
     const resData = await this.app.model.Journal.findAll({
-      where: { watch_id: id, type: this.getType() },
+      where: { watch_id: id, type },
       limit,
       offset
     });
@@ -28,14 +29,15 @@ export default class JouralService extends Service {
   /**
    * 根据用户获取观看记录（教程/文章/视频）
    * @param userId
+   * @param type
    * @param limit
    * @param offset
    */
-  public async getByUser(userId, limit, offset) {
+  public async getByUser(userId, type, limit, offset) {
     const resData = await this.app.model.Journal.findAll({
       where: {
         user_id: userId,
-        type: this.getType()
+        type
       },
       limit,
       offset
@@ -46,12 +48,13 @@ export default class JouralService extends Service {
   /**
    * 添加观看记录（教程/文章/视频）
    * @param id
+   * @param type
    * @param userId
    * @param start
    * @param stop
    */
-  public async add(id, userId, start, stop): Promise<JournalSuccessResData> {
-    const resData = await this.getData(id, this.getType());
+  public async add(id, type, userId, start, stop): Promise<JournalSuccessResData> {
+    const resData = await this.getData(id, type);
     if (!resData) {
       this.ctx.throw(400, '此 （教程/文章/视频） 已不存在');
     }
@@ -60,20 +63,10 @@ export default class JouralService extends Service {
       user_id: userId,
       start,
       stop,
-      type: this.getType(),
+      type,
       watch_id: resData.id
     });
     return { ...result.toJSON(), watch_name: resData.name };
-  }
-  private async getType() {
-    const { type } = this.ctx.params;
-    if (type === 'course') {
-      return 1;
-    } else if (type === 'video') {
-      return 2;
-    } else if (type === 'article') {
-      return 3;
-    }
   }
   private async getData(id: any, type: any) {
     let resData;

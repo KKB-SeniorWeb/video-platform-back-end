@@ -25,7 +25,7 @@ export default class JournalController extends BaseController {
   public async add() {
     const { id, userId, start, stop } = this.ctx.request.body;
     this.ctx.validate(this.addRule());
-    const resData = await this.ctx.service.journal.add(id, userId, start, stop);
+    const resData = await this.ctx.service.journal.add(id, this.getType(), userId, start, stop);
     this.success({
       code: 1,
       msg: '添加观看记录成功',
@@ -53,7 +53,7 @@ export default class JournalController extends BaseController {
   public async getById() {
     const { id, limit, offset } = this.ctx.request.body;
     this.ctx.validate(this.getRule('id'));
-    const resData = await this.ctx.service.journal.getById(id, limit, offset);
+    const resData = await this.ctx.service.journal.getById(id, this.getType(), limit, offset);
     this.success({
       code: 1,
       msg: '获取观看记录成功',
@@ -81,12 +81,22 @@ export default class JournalController extends BaseController {
   public async getByUser() {
     const { userId, limit, offset } = this.ctx.request.body;
     this.ctx.validate(this.getRule('userId'));
-    const resData = await this.ctx.service.journal.getByUser(userId, limit, offset);
+    const resData = await this.ctx.service.journal.getByUser(userId, this.getType(), limit, offset);
     this.success({
       code: 1,
       msg: '获取观看记录成功',
       data: resData
     });
+  }
+  private async getType() {
+    const { type } = this.ctx.params;
+    if (type === 'course') {
+      return 1;
+    } else if (type === 'video') {
+      return 2;
+    } else if (type === 'article') {
+      return 3;
+    }
   }
 
   private getRule(arg) {

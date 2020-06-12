@@ -8,7 +8,7 @@ describe('test/app/service/Journal.test.ts', () => {
   before(async () => {
     ctx = app.mockContext();
   });
-  describe('getByUser 根据用户获取观看记录', () => {
+  describe('getByUser 查询用户的教程观看记录', () => {
     const parameter = {
       userId: '用户id',
       limit: 20,
@@ -18,21 +18,21 @@ describe('test/app/service/Journal.test.ts', () => {
       mock(app.model.Journal, 'findAll', () => {
         return [];
       });
-      const resData = await ctx.service.journal.getByUser(parameter.userId, parameter.limit, parameter.offset);
+      const resData = await ctx.service.journal.getByUser(parameter.userId, 1, parameter.limit, parameter.offset);
       assert(resData);
     });
   });
-  describe('getbyid 获取观看记录', () => {
+  describe('getbyid 获取教程观看记录', () => {
     const parameter = {
       id: '教程id',
       limit: 20,
       offset: 1
     };
-    it('获取观看记录成功', async () => {
+    it('获取教程观看记录成功', async () => {
       mock(app.model.Journal, 'findAll', () => {
         return [];
       });
-      const resData = await ctx.service.journal.getById(parameter.id, parameter.limit, parameter.offset);
+      const resData = await ctx.service.journal.getById(parameter.id, 1, parameter.limit, parameter.offset);
       assert(resData);
     });
   });
@@ -54,7 +54,7 @@ describe('test/app/service/Journal.test.ts', () => {
           };
         });
         try {
-          await ctx.service.journal.add(account.id, account.userId, account.start, account.stop);
+          await ctx.service.journal.add(account.id, 1, account.userId, account.start, account.stop);
           assert.fail('应该抛出错误');
         } catch (e) {
           assert(e.message === '此 （教程/文章/视频） 已不存在');
@@ -88,7 +88,7 @@ describe('test/app/service/Journal.test.ts', () => {
         };
       });
 
-      const resData = await ctx.service.journal.add(account.id, account.userId, account.start, account.stop);
+      const resData = await ctx.service.journal.add(account.id, 1, account.userId, account.start, account.stop);
       assert(resData.watch_name === '教程名称');
       assert(resData.userId === account.userId);
     });

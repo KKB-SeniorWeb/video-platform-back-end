@@ -10,7 +10,6 @@ function createJournal(info = {}) {
   const defaultInfo = {
     id: '教程id',
     userId: '用户id',
-    type: 1,
     start: Date.now(),
     stop: Date.now()
   };
@@ -19,7 +18,6 @@ function createJournal(info = {}) {
 function getByIdParmas(info = {}) {
   const defaultInfo = {
     id: '教程id',
-    type: 1,
     limit: 20,
     offset: 1
   };
@@ -28,7 +26,6 @@ function getByIdParmas(info = {}) {
 function getByUserParmas(info = {}) {
   const defaultInfo = {
     userId: '用户id',
-    type: 1,
     limit: 20,
     offset: 1
   };
@@ -36,15 +33,14 @@ function getByUserParmas(info = {}) {
 }
 
 describe('test/app/controller/journal.test.js', () => {
-  describe('journal 根据用户获取观看记录', () => {
-    const apiName = JOURNAL_USER;
+  describe('journal 根据用户获取教程教程观看记录', () => {
+    const apiName = JOURNAL_USER + '/course';
     describe('userId', async () => {
       it('当用户id为空时 返回用户id不能为空的消息', async () => {
         const result = await app
           .httpRequest()
           .get(apiName)
           .send(getByUserParmas({ userId: '' }));
-
         assert(result.body.code === 0);
       });
     });
@@ -63,13 +59,14 @@ describe('test/app/controller/journal.test.js', () => {
     });
   });
   describe('journal 根据id获取观看记录', () => {
-    const apiName = JOURNAL_ID;
+    const apiName = JOURNAL_ID + '/course';
     describe('教程id', async () => {
-      it('当观看的（教程）id为空时 返回教程id不能为空的消息', async () => {
+      it('当观看的教程id为空时 返回教程id不能为空的消息', async () => {
         const result = await app
           .httpRequest()
           .get(apiName)
           .send(getByIdParmas({ id: '' }));
+
         assert(result.body.code === 0);
       });
     });
@@ -88,7 +85,7 @@ describe('test/app/controller/journal.test.js', () => {
     });
   });
   describe('journal 添加观看记录', () => {
-    const apiName = JOURNAL_ADD;
+    const apiName = JOURNAL_ADD + '/course';
     describe('userId', () => {
       it('当用户id为空时 返回用户id不能为空的消息', async () => {
         const token = generateToken();
