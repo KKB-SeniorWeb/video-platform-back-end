@@ -26,7 +26,7 @@ function videoRouter(app) {
 }
 function journalRouter(app) {
   const { controller, router } = app;
-  router.post(`${JOURNAL_ADD}/:type`, controller.journal.add);
+  router.post(`${JOURNAL_ADD}/:type`, app.jwt, controller.journal.add);
   router.get(`${JOURNAL_ID}/:type`, controller.journal.getById);
   router.get(`${JOURNAL_USER}/:type`, controller.journal.getByUser);
 }
