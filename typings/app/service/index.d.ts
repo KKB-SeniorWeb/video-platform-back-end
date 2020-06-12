@@ -2,6 +2,7 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
+import ExportArticle from '../../../app/service/article';
 import ExportJournal from '../../../app/service/journal';
 import ExportJwt from '../../../app/service/jwt';
 import ExportSignin from '../../../app/service/signin';
@@ -11,6 +12,7 @@ import ExportVideo from '../../../app/service/video';
 
 declare module 'egg' {
   interface IService {
+    article: ExportArticle;
     journal: ExportJournal;
     jwt: ExportJwt;
     signin: ExportSignin;

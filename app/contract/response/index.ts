@@ -45,7 +45,7 @@ module.exports = {
         id: { type: 'string', example: '日志id' },
         start: { type: 'int', example: 193897920389 },
         stop: { type: 'int', example: 98327058943 },
-        name: { type: 'string', example: '教程/文章/视频/名称' },
+        name: { type: 'string', example: '名称' },
         user_id: { type: 'string', example: '用户id' }
       }
     }
@@ -62,14 +62,14 @@ module.exports = {
           user_id: { type: 'string', example: '用户id' },
           username: { type: 'string', example: '用户名' },
           time: { type: 'string', example: '观看开始时间 ～ 观看结束时间' },
-          watch: { type: 'string', example: '观看（教程/文章/视频）名称' }
+          watch: { type: 'string', example: '观看名称' }
         },
         {
           id: { type: 'string', example: '日志id-2' },
           user_id: { type: 'string', example: '用户id' },
           username: { type: 'string', example: '用户名' },
           time: { type: 'string', example: '观看开始时间 ～ 观看结束时间' },
-          watch: { type: 'string', example: '观看（教程/文章/视频）名称' }
+          watch: { type: 'string', example: '观看名称' }
         }
       ]
     }
@@ -86,16 +86,26 @@ module.exports = {
           user_id: { type: 'string', example: '用户id' },
           username: { type: 'string', example: '用户名' },
           time: { type: 'string', example: '观看开始时间 ～ 观看结束时间' },
-          watch: { type: 'string', example: '观看（教程/文章/视频）名称' }
+          watch: { type: 'string', example: '观看名称' }
         },
         {
           id: { type: 'string', example: '日志id-2' },
           user_id: { type: 'string', example: '用户id' },
           username: { type: 'string', example: '用户名' },
           time: { type: 'string', example: '观看开始时间 ～ 观看结束时间' },
-          watch: { type: 'string', example: '观看（教程/文章/视频）名称' }
+          watch: { type: 'string', example: '观看名称' }
         }
       ]
+    }
+  },
+  articleCreateResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '新建文章成功' },
+    data: {
+      type: 'object',
+      example: {
+        id: '文章id'
+      }
     }
   }
 };

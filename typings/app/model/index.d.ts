@@ -2,6 +2,7 @@
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
+import ExportArticle from '../../../app/model/article';
 import ExportCourse from '../../../app/model/course';
 import ExportJournal from '../../../app/model/journal';
 import ExportUser from '../../../app/model/user';
@@ -9,6 +10,7 @@ import ExportVideo from '../../../app/model/video';
 
 declare module 'egg' {
   interface IModel {
+    Article: ReturnType<typeof ExportArticle>;
     Course: ReturnType<typeof ExportCourse>;
     Journal: ReturnType<typeof ExportJournal>;
     User: ReturnType<typeof ExportUser>;

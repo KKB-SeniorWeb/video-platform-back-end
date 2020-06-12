@@ -1,12 +1,16 @@
 import * as assert from 'assert';
 import { app } from 'egg-mock/bootstrap';
-import { JOURNAL_ADD, JOURNAL_GETBYUSER, JOURNAL_GETBYID } from '../../../app/const/index';
+import { JOURNAL_ADD, JOURNAL_USER, JOURNAL_ID } from '../../../app/const/index';
 
+function generateToken(role = 'master') {
+  const token = app.jwt.sign({ role }, app.config.jwt.secret);
+  return token;
+}
 function createJournal(info = {}) {
   const defaultInfo = {
     id: '教程id',
-    user_id: '用户id',
     type: 1,
+    userId: '用户id',
     start: Date.now(),
     stop: Date.now()
   };
@@ -23,7 +27,7 @@ function getByIdParmas(info = {}) {
 }
 function getByUserParmas(info = {}) {
   const defaultInfo = {
-    user_id: '用户id',
+    userId: '用户id',
     type: 1,
     limit: 20,
     offset: 1
@@ -32,20 +36,19 @@ function getByUserParmas(info = {}) {
 }
 
 describe('test/app/controller/journal.test.js', () => {
-  describe('journal 根据用户获取观看记录', () => {
-    const apiName = JOURNAL_GETBYUSER;
-    describe('user_id', async () => {
+  describe('journal 根据用户获取教程教程观看记录', () => {
+    const apiName = JOURNAL_USER + '/course';
+    describe('userId', async () => {
       it('当用户id为空时 返回用户id不能为空的消息', async () => {
         const result = await app
           .httpRequest()
           .get(apiName)
-          .send(getByUserParmas({ user_id: '' }));
-
+          .send(getByUserParmas({ userId: '' }));
         assert(result.body.code === 0);
       });
     });
     it('根据用户获取观看记录成功', async () => {
-      app.mockService('journal', 'getByUserJournal', () => {
+      app.mockService('journal', 'getByUser', () => {
         return true;
       });
       const result = await app
@@ -58,19 +61,20 @@ describe('test/app/controller/journal.test.js', () => {
       assert(result.body.data === true);
     });
   });
-  describe('journal 获取观看记录', () => {
-    const apiName = JOURNAL_GETBYID;
+  describe('journal 根据id获取观看记录', () => {
+    const apiName = JOURNAL_ID + '/course';
     describe('教程id', async () => {
-      it('当观看的（教程）id为空时 返回教程id不能为空的消息', async () => {
+      it('当观看的教程id为空时 返回教程id不能为空的消息', async () => {
         const result = await app
           .httpRequest()
           .get(apiName)
           .send(getByIdParmas({ id: '' }));
+
         assert(result.body.code === 0);
       });
     });
     it('获取观看记录成功', async () => {
-      app.mockService('journal', 'getByIdJournal', () => {
+      app.mockService('journal', 'getById', () => {
         return true;
       });
       const result = await app
@@ -84,22 +88,26 @@ describe('test/app/controller/journal.test.js', () => {
     });
   });
   describe('journal 添加观看记录', () => {
-    const apiName = JOURNAL_ADD;
-    describe('user_id', () => {
+    const apiName = JOURNAL_ADD + '/course';
+    describe('userId', () => {
       it('当用户id为空时 返回用户id不能为空的消息', async () => {
+        const token = generateToken();
         const result = await app
           .httpRequest()
           .post(apiName)
-          .send(createJournal({ user_id: '' }));
+          .set('Authorization', 'Bearer ' + token)
+          .send(createJournal({ userId: '' }));
 
         assert(result.body.code === 0);
       });
     });
     describe('id', () => {
       it('当id为空时 返回（教程/文章/视频）id不能为空的消息', async () => {
+        const token = generateToken();
         const result = await app
           .httpRequest()
           .post(apiName)
+          .set('Authorization', 'Bearer ' + token)
           .send(createJournal({ id: '' }));
 
         assert(result.body.code === 0);
@@ -107,12 +115,14 @@ describe('test/app/controller/journal.test.js', () => {
     });
 
     it('添加观看记录成功', async () => {
-      app.mockService('journal', 'addJournal', () => {
+      const token = generateToken();
+      app.mockService('journal', 'add', () => {
         return true;
       });
       const result = await app
         .httpRequest()
         .post(apiName)
+        .set('Authorization', 'Bearer ' + token)
         .send(createJournal());
 
       assert(result.body.code === 1);

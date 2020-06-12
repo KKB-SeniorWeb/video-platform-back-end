@@ -6,7 +6,7 @@ interface JournalSuccessResData {
   start: number;
   stop: number;
   watch_name: string;
-  user_id: string;
+  userId: string;
 }
 
 export default class JouralService extends Service {
@@ -18,7 +18,7 @@ export default class JouralService extends Service {
    * @param offset
    */
   //
-  public async getByIdJournal(id, type, limit, offset) {
+  public async getById(id, type, limit, offset) {
     const resData = await this.app.model.Journal.findAll({
       where: { watch_id: id, type },
       limit,
@@ -28,15 +28,15 @@ export default class JouralService extends Service {
   }
   /**
    * 根据用户获取观看记录（教程/文章/视频）
-   * @param user_id
+   * @param userId
    * @param type
    * @param limit
    * @param offset
    */
-  public async getByUserJournal(user_id, type, limit, offset) {
+  public async getByUser(userId, type, limit, offset) {
     const resData = await this.app.model.Journal.findAll({
       where: {
-        user_id,
+        user_id: userId,
         type
       },
       limit,
@@ -48,20 +48,19 @@ export default class JouralService extends Service {
   /**
    * 添加观看记录（教程/文章/视频）
    * @param id
-   * @param user_id
    * @param type
+   * @param userId
    * @param start
    * @param stop
    */
-  public async addJournal(id, user_id, type, start, stop): Promise<JournalSuccessResData> {
+  public async add(id, type, userId, start, stop): Promise<JournalSuccessResData> {
     const resData = await this.getData(id, type);
-
     if (!resData) {
       this.ctx.throw(400, '此 （教程/文章/视频） 已不存在');
     }
     const result = await this.app.model.Journal.create({
       id: uuidv4(),
-      user_id,
+      user_id: userId,
       start,
       stop,
       type,
