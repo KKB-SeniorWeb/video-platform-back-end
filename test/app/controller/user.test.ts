@@ -3,8 +3,8 @@ import { app } from 'egg-mock/bootstrap';
 import { Role } from '../../../app/service/user';
 import { UserVo } from '../../../app/controller/user';
 
-function generateToken(role = 'master') {
-  const token = app.jwt.sign({ role }, app.config.jwt.secret);
+function generateToken(role = 'master', uId = '123456') {
+  const token = app.jwt.sign({ role, uId }, app.config.jwt.secret);
   return token;
 }
 
@@ -89,5 +89,32 @@ describe('test/app/controller/user.test.ts', () => {
       assert(result.status === 200);
       assert(reqData);
     });
+  });
+
+  it('修改用户密码', async () => {
+    // given
+    const selfUserId = '1234567';
+    const targetUserId = '1234567';
+    const token = generateToken(Role.User, selfUserId);
+    const newPassword = 'newabcdef123';
+    const confirmPassword = 'newabcdef123';
+
+    app.mockService('user', 'changePassword', () => {
+      return true;
+    });
+
+    // when
+    const result = await app
+      .httpRequest()
+      .patch(`/users/${targetUserId}`)
+      .set('Authorization', 'Bearer ' + token)
+      .send({
+        newPassword,
+        confirmPassword
+      });
+
+    // then
+    assert(result.status === 200);
+    assert(result.body.msg === 'Change the password successfully');
   });
 });

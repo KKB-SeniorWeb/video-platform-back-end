@@ -11,7 +11,6 @@ export default class SignupController extends BaseController {
    * @Response 200 signinResponse success
    */
   public async index() {
-    console.log('注册 - 测试需要删除');
     this.validateParams();
     const { password, username } = this.ctx.request.body;
     await this.ctx.service.signup.create({ username, password });

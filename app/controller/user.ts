@@ -61,4 +61,39 @@ export default class UserController extends BaseController {
       data: result
     });
   }
+
+  public async update() {
+    const { newPassword } = this.ctx.request.body;
+
+    if (newPassword) {
+      await this.changePassword();
+    }
+  }
+
+  private async changePassword() {
+    const { newPassword, confirmPassword } = this.ctx.request.body;
+    const { id } = this.ctx.params;
+
+    this.ctx.validate({
+      newPassword: {
+        required: true,
+        type: 'string',
+        format: /^[_a-zA-Z0-9]{8,22}$/
+      },
+      confirmPassword: {
+        required: true,
+        type: 'string'
+      }
+    });
+
+    await this.ctx.service.user.changePassword({
+      id,
+      newPassword,
+      confirmPassword
+    });
+
+    this.success({
+      msg: 'Change the password successfully'
+    });
+  }
 }

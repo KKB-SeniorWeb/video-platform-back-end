@@ -1,3 +1,4 @@
+import * as bcrypt from '../utils/bcrypt';
 import { Service } from 'egg';
 
 export interface Account {
@@ -42,6 +43,34 @@ export default class UserService extends Service {
     this.checkDeleteUIdIsSelf(id);
     const result = await this.ctx.model.User.destroy({ where: { id } });
     return Boolean(result);
+  }
+
+  public async changePassword({ id, newPassword, confirmPassword }) {
+    const { uId: currentUId, role } = this.ctx.service.jwt.getTokenInfo();
+    if (this.isUserOfRole(role) && currentUId !== id) {
+      this.throwNoPermissionError();
+    }
+
+    if (newPassword !== confirmPassword) {
+      this.ctx.throw(400, '密码和确认密码不一致');
+    }
+
+    const [result] = await this.ctx.model.User.update(
+      {
+        password: bcrypt.hashSync(newPassword)
+      },
+      {
+        where: {
+          id
+        }
+      }
+    );
+
+    if (result !== 1) {
+      this.ctx.throw(400, '修改密码失败');
+    }
+
+    return result;
   }
 
   private checkDeleteUIdIsSelf(id) {

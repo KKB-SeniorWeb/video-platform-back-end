@@ -40,6 +40,11 @@ function userRouter(app) {
   router.get(USER, app.jwt, adminAndMasterRequired, controller.user.findAll);
   // 删除用户
   router.delete(`${USER}/:id`, app.jwt, adminAndMasterRequired, controller.user.deleteUser);
+  // 修改用户信息
+  // 密码
+  // 头像
+  // 开通管理员（修改用户的 role）
+  router.patch(`${USER}/:id`, app.jwt, controller.user.update);
 }
 
 export default (app: Application) => {
