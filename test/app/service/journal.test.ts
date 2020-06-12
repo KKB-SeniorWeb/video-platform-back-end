@@ -2,7 +2,7 @@ import * as assert from 'assert';
 import { Context } from 'egg';
 import { app, mock } from 'egg-mock/bootstrap';
 
-describe('test/app/service/Journal.test.ts', () => {
+describe('test/app/service/journal.test.ts', () => {
   let ctx: Context;
 
   before(async () => {

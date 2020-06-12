@@ -51,6 +51,7 @@ export default class JournalController extends BaseController {
    * @Response 200 journalGetByIdResponse success
    */
   public async getById() {
+    console.log('============', this.ctx.params);
     const { id, limit, offset } = this.ctx.request.body;
     this.ctx.validate(this.getRule('id'));
     const resData = await this.ctx.service.journal.getById(id, this.getType(), limit, offset);

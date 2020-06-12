@@ -9,6 +9,7 @@ function generateToken(role = 'master') {
 function createJournal(info = {}) {
   const defaultInfo = {
     id: '教程id',
+    type: 1,
     userId: '用户id',
     start: Date.now(),
     stop: Date.now()
@@ -18,6 +19,7 @@ function createJournal(info = {}) {
 function getByIdParmas(info = {}) {
   const defaultInfo = {
     id: '教程id',
+    type: 1,
     limit: 20,
     offset: 1
   };
@@ -26,6 +28,7 @@ function getByIdParmas(info = {}) {
 function getByUserParmas(info = {}) {
   const defaultInfo = {
     userId: '用户id',
+    type: 1,
     limit: 20,
     offset: 1
   };
