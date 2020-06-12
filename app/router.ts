@@ -25,8 +25,9 @@ function videoRouter(app) {
   router.post(VIDEO_DELETE, controller.video.delete);
 }
 function journalRouter(app) {
-  const { controller, router } = app;
-  router.post(`${JOURNAL_ADD}/:type`, app.jwt, controller.journal.add);
+  const { controller, router, middleware } = app;
+  const adminAndMasterRequired = middleware.permissionsValidation(['admin', 'master']);
+  router.post(`${JOURNAL_ADD}/:type`, app.jwt, adminAndMasterRequired, controller.journal.add);
   router.get(`${JOURNAL_ID}/:type`, controller.journal.getById);
   router.get(`${JOURNAL_USER}/:type`, controller.journal.getByUser);
 }
