@@ -2,6 +2,7 @@ import * as assert from 'assert';
 import { Context } from 'egg';
 import { app, mock } from 'egg-mock/bootstrap';
 import * as sinon from 'sinon';
+import { Role } from '../../../app/service/user';
 
 function generateToken(uId: string, role = 'user') {
   const token = app.jwt.sign({ uId, role }, app.config.jwt.secret);
@@ -131,6 +132,200 @@ describe('test/app/service/user.test.js', () => {
       } catch (e) {
         assert(e.status === 400);
         assert(e.message === '不能删除自己');
+      }
+    });
+  });
+
+  describe('修改用户密码', () => {
+    let updateFakeFn;
+    let newPassword;
+    let confirmPassword;
+    beforeEach(() => {
+      updateFakeFn = sinon.fake.resolves([1]);
+      mock(app.model.User, 'update', updateFakeFn);
+      newPassword = 'abc456789';
+      confirmPassword = 'abc456789';
+    });
+
+    describe('普通用户', () => {
+      beforeEach(() => {
+        setTokenToHeader(uId, Role.User);
+      });
+      it('普通用户可以修改自己的密码', async () => {
+        // when
+        const result = await ctx.service.user.changePassword({
+          id: uId,
+          newPassword,
+          confirmPassword
+        });
+
+        // then
+        assert(result === 1);
+      });
+      it('普通用户不可以修改其他人的密码', async () => {
+        // given
+        const targetUserId = 'aaaaaa';
+
+        try {
+          // when
+          await ctx.service.user.changePassword({
+            id: targetUserId,
+            newPassword,
+            confirmPassword
+          });
+          assert.fail('应该抛出错误');
+        } catch (e) {
+          // then
+          assert(e.status === 401);
+          assert(e.message === '没有权限');
+        }
+      });
+
+      it('入库的密码不应该是明文', async () => {
+        // when
+        await ctx.service.user.changePassword({
+          id: uId,
+          newPassword,
+          confirmPassword
+        });
+
+        // then
+        assert(updateFakeFn.called);
+        assert(updateFakeFn.firstArg.password !== newPassword);
+      });
+      it('入库失败的时候应该返回 400', async () => {
+        // given
+        updateFakeFn = sinon.fake.resolves([0]);
+        mock(app.model.User, 'update', updateFakeFn);
+
+        // when
+        try {
+          await ctx.service.user.changePassword({
+            id: uId,
+            newPassword,
+            confirmPassword
+          });
+          assert.fail('应该抛出错误');
+        } catch (e) {
+          // then
+          assert(e.status === 400);
+          assert(e.message === '修改密码失败');
+        }
+      });
+
+      it('密码和确认密码不一致的话，报错', async () => {
+        // given
+        confirmPassword = '1abc456789';
+
+        try {
+          // when
+          await ctx.service.user.changePassword({
+            id: uId,
+            newPassword,
+            confirmPassword
+          });
+          assert.fail('应该抛出错误');
+        } catch (e) {
+          // then
+          assert(e.status === 400);
+          assert(e.message === '密码和确认密码不一致');
+        }
+      });
+    });
+
+    describe('管理员', () => {
+      beforeEach(() => {
+        setTokenToHeader(uId, Role.Master);
+      });
+      it('管理员可以修改指定的用户的密码', async () => {
+        // given
+        const targetUserId = 'aaaaaa';
+
+        // when
+        const result = await ctx.service.user.changePassword({
+          id: targetUserId,
+          newPassword,
+          confirmPassword
+        });
+
+        // then
+        assert(result === 1);
+      });
+    });
+  });
+
+  describe('修改用户昵称', () => {
+    const nickname = '春去春又来';
+    describe('修改成功', () => {
+      let updateFakeFn;
+      beforeEach(() => {
+        // given
+        updateFakeFn = sinon.fake.resolves([1]);
+        mock(app.model.User, 'update', updateFakeFn);
+      });
+
+      afterEach(async () => {
+        // when
+        const result = await ctx.service.user.changeNickname({
+          id: uId,
+          nickname
+        });
+
+        // then
+        assert(result === 1);
+        assert(updateFakeFn.called);
+        assert(updateFakeFn.firstArg.nickname === nickname);
+      });
+      it('用户成功修改自己的昵称', async () => {
+        // given
+        setTokenToHeader(uId, Role.User);
+      });
+
+      it('管理员可以修改其他用户的昵称', async () => {
+        // given
+        setTokenToHeader('123456', Role.Master);
+      });
+    });
+
+    describe('修改失败', () => {
+      beforeEach(() => {
+        const updateFakeFn = sinon.fake.resolves([0]);
+        mock(app.model.User, 'update', updateFakeFn);
+      });
+      it('用户不可以修改其他人的昵称', async () => {
+        // given
+        setTokenToHeader('123456', Role.User);
+
+        try {
+          // when
+          await ctx.service.user.changeNickname({
+            id: uId,
+            nickname
+          });
+          assert.fail('应该报错');
+        } catch (e) {
+          // then
+          assert(e.status === 400);
+          assert(e.message === '没有权限');
+        }
+      });
+    });
+
+    it('昵称没有变化的话，修改失败', async () => {
+      // given
+      setTokenToHeader(uId, Role.User);
+
+      try {
+        // when
+        await ctx.service.user.changeNickname({
+          id: uId,
+          nickname
+        });
+        assert.fail('应该报错');
+      } catch (e) {
+        // then
+        assert(e.status === 400);
+        assert(e.message === '修改失败，昵称没有更新');
       }
     });
   });

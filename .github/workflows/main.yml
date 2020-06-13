@@ -57,14 +57,14 @@ jobs:
         run: |
           docker push ${{ secrets.DOCKER_USER }}/video-platform-back-end:${{ github.sha }}
           docker push ${{ secrets.DOCKER_USER }}/video-platform-back-end:latest
-      - name: copy docker-compose to server
-        uses: appleboy/scp-action@master
-        with:
-          host: ${{ secrets.REMOTE_HOST }}
-          username: ${{ secrets.REMOTE_USER }}
-          password: ${{ secrets.PASSWORD }}
-          source: './docker-compose.yml'
-          target: '/home/kkb/video-platform-back-end/'
+      # - name: copy docker-compose to server
+      #   uses: appleboy/scp-action@master
+      #   with:
+      #     host: ${{ secrets.REMOTE_HOST }}
+      #     username: ${{ secrets.REMOTE_USER }}
+      #     password: ${{ secrets.PASSWORD }}
+      #     source: './docker-compose.yml'
+      #     target: '/home/kkb/video-platform-back-end/'
       - name: executing docker-compose
         uses: appleboy/ssh-action@master
         with:
