@@ -20,8 +20,8 @@ export default class ArticleService extends Service {
       cover,
       describe,
       content,
-      authorId
+      author_id: authorId
     });
-    return { id: results.id };
+    return { id: results.toJSON().id };
   }
 }

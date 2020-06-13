@@ -18,7 +18,11 @@ describe('test/app/service/article.test.ts', () => {
     };
     it('新建文章成功', async () => {
       mock(app.model.Article, 'create', () => {
-        return { id: '字符串id' };
+        return {
+          toJSON() {
+            return { id: '字符串id' };
+          }
+        };
       });
       const resData = await ctx.service.article.create(
         params.title,
@@ -27,7 +31,7 @@ describe('test/app/service/article.test.ts', () => {
         params.content,
         params.authorId
       );
-      assert(resData);
+      assert(resData.id);
     });
   });
 });

@@ -12,7 +12,8 @@ export default class ArticleController extends BaseController {
   public async create() {
     const { title, cover, describe, content, authorId } = this.ctx.request.body;
     this.ctx.validate(this.getRule());
-    const resData = this.ctx.service.article.create(title, cover, describe, content, authorId);
+    const resData = await this.ctx.service.article.create(title, cover, describe, content, authorId);
+
     this.success({
       code: 1,
       msg: '新建文章成功',
