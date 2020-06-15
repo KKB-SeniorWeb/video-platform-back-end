@@ -81,7 +81,7 @@ describe('user e2e', () => {
 
   it('修改用户昵称', async () => {
     // given
-    const nickname = '春去春又来';
+    const nickname = 'chunquchun';
     // when
     const result = await app
       .httpRequest()
