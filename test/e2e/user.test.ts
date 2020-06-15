@@ -27,7 +27,7 @@ async function createUserModelToDB() {
   return userModel;
 }
 
-describe('test/app/controller/user.test.ts', () => {
+describe('user e2e', () => {
   let userModel;
   let token;
   beforeEach(async () => {
