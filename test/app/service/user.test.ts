@@ -329,4 +329,75 @@ describe('test/app/service/user.test.js', () => {
       }
     });
   });
+
+  describe('开通管理员', () => {
+    let updateFakeFn;
+    beforeEach(() => {
+      // given
+      updateFakeFn = sinon.fake.resolves([1]);
+      mock(app.model.User, 'update', updateFakeFn);
+    });
+
+    it('成功开通', async () => {
+      // given
+      setTokenToHeader(uId, Role.Admin);
+
+      // when
+      const result = await ctx.service.user.changeRole({
+        id: '123456',
+        role: Role.Master
+      });
+
+      // then
+      assert(result === 1);
+      assert(updateFakeFn.called);
+      assert(updateFakeFn.firstArg.role === Role.Master);
+    });
+
+    it('角色没有变动的话，修改失败', async () => {
+      // given
+      updateFakeFn = sinon.fake.resolves([0]);
+      mock(app.model.User, 'update', updateFakeFn);
+
+      try {
+        // when
+        await ctx.service.user.changeRole({
+          id: '123456',
+          role: Role.Master
+        });
+        assert.fail('应该报错');
+      } catch (e) {
+        // then
+        assert(e.status === 400);
+        assert(e.message === '修改失败，角色没有更新');
+      }
+    });
+
+    describe('非站长没有权限操作', () => {
+      afterEach(async () => {
+        // when
+        try {
+          await ctx.service.user.changeRole({
+            id: '123456',
+            role: Role.Master
+          });
+          assert.fail('应该报错');
+        } catch (e) {
+          // then
+          assert(e.status === 403);
+          assert(e.message === '没有权限');
+        }
+      });
+
+      it('普通用户', async () => {
+        // given
+        setTokenToHeader(uId, Role.User);
+      });
+
+      it('管理员', async () => {
+        // given
+        setTokenToHeader(uId, Role.Master);
+      });
+    });
+  });
 });

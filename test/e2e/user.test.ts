@@ -98,5 +98,19 @@ describe('user e2e', () => {
     assert(userVo.nickname === nickname);
   });
   it.skip('修改用户头像');
-  it.skip('开通管理员');
+  it('开通管理员', async () => {
+    // given
+    const role = 'master';
+    // when
+    const result = await app
+      .httpRequest()
+      .patch(`/users/${userModel.id}`)
+      .set('Authorization', 'Bearer ' + token)
+      .expect(200)
+      .send({
+        role
+      });
+    // then
+    assert(result.body.msg === '修改成功');
+  });
 });
