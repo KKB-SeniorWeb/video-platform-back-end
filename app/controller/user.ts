@@ -61,4 +61,85 @@ export default class UserController extends BaseController {
       data: result
     });
   }
+
+  public async update() {
+    const { newPassword, nickname, role } = this.ctx.request.body;
+
+    if (newPassword) {
+      await this.changePassword();
+    }
+
+    if (nickname) {
+      await this.changeNickname();
+    }
+
+    if (role) {
+      await this.changeRole();
+    }
+  }
+
+  private async changeRole() {
+    // 开通管理员
+
+    // todo
+    // role 只能是 master
+    const { id } = this.ctx.params;
+    const { role } = this.ctx.request.body;
+
+    await this.ctx.service.user.changeRole({ id, role });
+
+    this.success({
+      msg: '修改成功'
+    });
+  }
+
+  private async changeNickname() {
+    // todo
+    // nickname 必须为 昵称为6-12位中英文字符
+    this.ctx.validate({
+      nickname: {
+        required: true,
+        type: 'string'
+      }
+    });
+
+    const { id } = this.ctx.params;
+    const { nickname } = this.ctx.request.body;
+
+    await this.ctx.service.user.changeNickname({ id, nickname });
+
+    this.success({
+      msg: '修改成功',
+      data: {
+        nickname
+      }
+    });
+  }
+
+  private async changePassword() {
+    const { newPassword, confirmPassword } = this.ctx.request.body;
+    const { id } = this.ctx.params;
+
+    this.ctx.validate({
+      newPassword: {
+        required: true,
+        type: 'string',
+        format: /^[_a-zA-Z0-9]{8,22}$/
+      },
+      confirmPassword: {
+        required: true,
+        type: 'string'
+      }
+    });
+
+    await this.ctx.service.user.changePassword({
+      id,
+      newPassword,
+      confirmPassword
+    });
+
+    this.success({
+      msg: '修改成功'
+    });
+  }
 }

@@ -1,8 +1,9 @@
+const { MYSQL_HOST, MYSQL_PORT } = process.env;
 export default () => {
   const sequelize = {
     dialect: 'mysql',
-    host: 'localhost',
-    port: '3306',
+    host: MYSQL_HOST,
+    port: MYSQL_PORT,
     username: 'root',
     password: '123456',
     database: 'video_platform_test'

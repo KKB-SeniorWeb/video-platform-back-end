@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  video-platform:
+    image: cuixiaorui/video-platform-back-end
+    ports:
+      - 7001:7001
+    environment:
+      NODE_ENV: production
+      MYSQL_HOST: mysql
+      MYSQL_DB: 'video_platform'
+    depends_on:
+      - 'mysql'
+    command: ['./wait-for-it.sh', 'mysql:3306', '-t', '60', '--', 'npm', 'run', 'setup']
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - ./mysql/data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: '123456'
+      MYSQL_DATABASE: 'video_platform'
