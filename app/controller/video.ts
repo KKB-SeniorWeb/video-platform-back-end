@@ -13,7 +13,7 @@ class Video extends BaseController {
    */
   async upload() {
     const { ctx } = this;
-    await upload(ctx, 'video', ['mp4']);
+    await upload(ctx, ['mp4']);
   }
 
   /**
