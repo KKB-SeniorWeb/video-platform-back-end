@@ -63,7 +63,7 @@ export default class UserController extends BaseController {
   }
 
   public async update() {
-    const { newPassword, nickname } = this.ctx.request.body;
+    const { newPassword, nickname, role } = this.ctx.request.body;
 
     if (newPassword) {
       await this.changePassword();
@@ -72,6 +72,25 @@ export default class UserController extends BaseController {
     if (nickname) {
       await this.changeNickname();
     }
+
+    if (role) {
+      await this.changeRole();
+    }
+  }
+
+  private async changeRole() {
+    // 开通管理员
+
+    // todo
+    // role 只能是 master
+    const { id } = this.ctx.params;
+    const { role } = this.ctx.request.body;
+
+    await this.ctx.service.user.changeRole({ id, role });
+
+    this.success({
+      msg: '修改成功'
+    });
   }
 
   private async changeNickname() {

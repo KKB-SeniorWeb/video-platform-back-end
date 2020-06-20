@@ -27,7 +27,7 @@ async function createUserModelToDB() {
   return userModel;
 }
 
-describe('test/app/controller/user.test.ts', () => {
+describe('user e2e', () => {
   let userModel;
   let token;
   beforeEach(async () => {
@@ -81,7 +81,7 @@ describe('test/app/controller/user.test.ts', () => {
 
   it('修改用户昵称', async () => {
     // given
-    const nickname = '春去春又来';
+    const nickname = 'chunquchun';
     // when
     const result = await app
       .httpRequest()
@@ -98,5 +98,19 @@ describe('test/app/controller/user.test.ts', () => {
     assert(userVo.nickname === nickname);
   });
   it.skip('修改用户头像');
-  it.skip('开通管理员');
+  it('开通管理员', async () => {
+    // given
+    const role = 'master';
+    // when
+    const result = await app
+      .httpRequest()
+      .patch(`/users/${userModel.id}`)
+      .set('Authorization', 'Bearer ' + token)
+      .expect(200)
+      .send({
+        role
+      });
+    // then
+    assert(result.body.msg === '修改成功');
+  });
 });

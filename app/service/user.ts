@@ -45,6 +45,33 @@ export default class UserService extends Service {
     return Boolean(result);
   }
 
+  private checkChangeRolePermissions() {
+    const { role: currentUserRole } = this.ctx.service.jwt.getTokenInfo();
+    if (currentUserRole !== Role.Admin) {
+      return this.ctx.throw(403, '没有权限');
+    }
+  }
+
+  public async changeRole({ id, role }) {
+    this.checkChangeRolePermissions();
+    const [result] = await this.ctx.model.User.update(
+      {
+        role
+      },
+      {
+        where: {
+          id
+        }
+      }
+    );
+
+    if (result === 0) {
+      this.ctx.throw(400, '修改失败，角色没有更新');
+    }
+
+    return result;
+  }
+
   public async changeNickname({ id, nickname }) {
     this.checkIsSelfUser(id, () => {
       this.ctx.throw(400, '没有权限');
