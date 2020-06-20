@@ -1,5 +1,5 @@
 module.exports = function(Sequelize) {
-  const { STRING, DATE } = Sequelize;
+  const { STRING, DATE, INTEGER } = Sequelize;
 
   return {
     id: { type: STRING(70), primaryKey: true },
@@ -8,6 +8,7 @@ module.exports = function(Sequelize) {
     describe: STRING(100),
     content: STRING(),
     author_id: STRING(70),
+    hot: INTEGER(100),
     created_at: DATE,
     updated_at: DATE
   };

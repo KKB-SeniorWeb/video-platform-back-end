@@ -9,7 +9,14 @@ import {
   JOURNAL_ID,
   JOURNAL_USER,
   USER,
-  ARTICLE_CREATE
+  ARTICLE_CREATE,
+  ARTICLE_UPDATE,
+  ARTICLE_DELETE,
+  ARTICLE_GET,
+  ARTICLE_LIST,
+  REPLY_PUSH,
+  REPLY_ONE,
+  REPLY_LIST
 } from './const/index';
 
 function signRouter(app) {
@@ -35,6 +42,16 @@ function articleRouter(app) {
   const { controller, router, middleware } = app;
   const adminAndMasterRequired = middleware.permissionsValidation(['admin', 'master']);
   router.post(ARTICLE_CREATE, app.jwt, adminAndMasterRequired, controller.article.create);
+  router.post(ARTICLE_UPDATE, app.jwt, adminAndMasterRequired, controller.article.update);
+  router.delete(ARTICLE_DELETE, app.jwt, adminAndMasterRequired, controller.article.delete);
+  router.get(ARTICLE_GET, app.jwt, controller.article.get);
+  router.get(ARTICLE_LIST, app.jwt, controller.article.getList);
+}
+function replyRouter(app) {
+  const { controller, router } = app;
+  router.post(REPLY_PUSH + '/:type', app.jwt, controller.reply.push);
+  router.get(REPLY_ONE, app.jwt, controller.reply.get);
+  router.get(REPLY_LIST + '/:type', app.jwt, controller.reply.getList);
 }
 
 function userRouter(app) {
@@ -60,4 +77,5 @@ export default (app: Application) => {
   journalRouter(app);
   userRouter(app);
   articleRouter(app);
+  replyRouter(app);
 };

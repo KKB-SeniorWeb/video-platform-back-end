@@ -107,5 +107,109 @@ module.exports = {
         id: '文章id'
       }
     }
+  },
+  articleUpdateResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '更新文章成功' },
+    data: {
+      type: 'object',
+      example: {
+        id: '文章id'
+      }
+    }
+  },
+  articleDeleteResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '删除文章成功' }
+  },
+  articleGetResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '获取文章成功' },
+    data: {
+      type: 'object',
+      example: {
+        id: '文章id',
+        title: '文章标题',
+        cover: '文章封面',
+        describe: '文章描述',
+        content: '文章内容',
+        author_id: '作者id',
+        created_at: '创建时间'
+      }
+    }
+  },
+  articleGetListResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '获取文章成功' },
+    data: {
+      type: 'object',
+      example: [
+        {
+          id: '文章id',
+          title: '文章标题',
+          cover: '文章封面',
+          describe: '文章描述',
+          content: '文章内容',
+          author_id: '作者id',
+          created_at: '创建时间'
+        },
+        {
+          id: '文章id',
+          title: '文章标题',
+          cover: '文章封面',
+          describe: '文章描述',
+          content: '文章内容',
+          author_id: '作者id',
+          created_at: '创建时间'
+        }
+      ]
+    }
+  },
+  replyPushResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '发表评论成功' }
+  },
+  replyGetResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '获取评论成功' },
+    data: {
+      type: 'object',
+      example: {
+        id: '评论id',
+        user: {
+          nickname: '评论人昵称',
+          avatar: '评论人头像'
+        },
+        reply: '内容',
+        watchId: '评论 (文章|视频) id'
+      }
+    }
+  },
+  replyGetListResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '获取评论列表成功' },
+    data: {
+      type: 'object',
+      example: [
+        {
+          id: '评论id',
+          user: {
+            nickname: '评论人昵称',
+            avatar: '评论人头像'
+          },
+          reply: '内容',
+          watchId: '评论 (文章|视频) id'
+        },
+        {
+          id: '评论id',
+          user: {
+            nickname: '评论人昵称',
+            avatar: '评论人头像'
+          },
+          reply: '内容',
+          watchId: '评论 (文章|视频) id'
+        }
+      ]
+    }
   }
 };
