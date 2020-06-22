@@ -12,6 +12,15 @@ export const setup = app => {
     avatar: 'test',
     role: 'master'
   });
+  factory.define('article', app.model.Article, {
+    id: Date.now() + '_id',
+    title: '文章标题',
+    cover: '文章封面',
+    describe: '文章描述',
+    content: '内容',
+    author_id: factory.sequence('User.id', n => `author_id_${n}`),
+    hot: 0
+  });
 };
 
 export const cleanup = async () => {
@@ -19,5 +28,6 @@ export const cleanup = async () => {
   // 在 setup 的时候 factory 会检测是否重复定义过
   // 如果重复定义过的话，会抛出错误
   delete factory.factories.user;
+  delete factory.factories.article;
   await factory.cleanUp();
 };
