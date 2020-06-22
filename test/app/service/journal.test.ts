@@ -70,7 +70,7 @@ describe('test/app/service/journal.test.ts', () => {
               id: '教程id',
               name: '教程名称',
               path: 'http://www.baidu.com/jiaohceng',
-              visitor_number: 23,
+              user_id: '123456',
               created_at: Date.now(),
               updated_at: Date.now()
             };

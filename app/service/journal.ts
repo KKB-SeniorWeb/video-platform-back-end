@@ -13,11 +13,9 @@ export default class JouralService extends Service {
   /**
    * 获取观看记录（教程/文章/视频）
    * @param id
-   * @param type
    * @param limit
    * @param offset
    */
-  //
   public async getById(id, type, limit, offset) {
     const resData = await this.app.model.Journal.findAll({
       where: { watch_id: id, type },
@@ -29,7 +27,6 @@ export default class JouralService extends Service {
   /**
    * 根据用户获取观看记录（教程/文章/视频）
    * @param userId
-   * @param type
    * @param limit
    * @param offset
    */
@@ -48,7 +45,6 @@ export default class JouralService extends Service {
   /**
    * 添加观看记录（教程/文章/视频）
    * @param id
-   * @param type
    * @param userId
    * @param start
    * @param stop
@@ -77,10 +73,11 @@ export default class JouralService extends Service {
     } else if (type === 3) {
       resData = await this.findOneWith(this.app.model.Video, id);
     }
+
     return resData;
   }
   private async findOneWith(model, id) {
-    const courseModel = await model.findOne({ where: { id } });
-    return courseModel.toJSON();
+    const Model = await model.findOne({ where: { id } });
+    return Model.toJSON();
   }
 }

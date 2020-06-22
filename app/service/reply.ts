@@ -68,7 +68,7 @@ export default class ReplyService extends Service {
     if (type === 2) {
       userId = await resData.author_id;
     } else if (type === 3) {
-      userId = await resData.visitor_number;
+      userId = await resData.user_id;
     }
     const user = await this.findOneWith(this.app.model.User, userId);
     return { watch: resData, user, reply: result };

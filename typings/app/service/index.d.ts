@@ -5,6 +5,7 @@ import 'egg';
 import ExportArticle from '../../../app/service/article';
 import ExportJournal from '../../../app/service/journal';
 import ExportJwt from '../../../app/service/jwt';
+import ExportReply from '../../../app/service/reply';
 import ExportSignin from '../../../app/service/signin';
 import ExportSignup from '../../../app/service/signup';
 import ExportUser from '../../../app/service/user';
@@ -15,6 +16,7 @@ declare module 'egg' {
     article: ExportArticle;
     journal: ExportJournal;
     jwt: ExportJwt;
+    reply: ExportReply;
     signin: ExportSignin;
     signup: ExportSignup;
     user: ExportUser;

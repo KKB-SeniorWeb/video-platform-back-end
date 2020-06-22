@@ -3,6 +3,16 @@ import BaseController from '../core/BaseController';
 /**
  * @Controller
  */
+export function getType(that) {
+  const { type } = that.ctx.params;
+  if (type === 'course') {
+    return 1;
+  } else if (type === 'article') {
+    return 2;
+  } else if (type === 'video') {
+    return 3;
+  }
+}
 export default class JournalController extends BaseController {
   /**
    * @Summary 添加教程观看记录
@@ -25,7 +35,8 @@ export default class JournalController extends BaseController {
   public async add() {
     const { id, userId, start, stop } = this.ctx.request.body;
     this.ctx.validate(this.addRule());
-    const resData = await this.ctx.service.journal.add(id, this.getType(), userId, start, stop);
+    const type = await getType(this);
+    const resData = await this.ctx.service.journal.add(id, type, userId, start, stop);
     this.success({
       code: 1,
       msg: '添加观看记录成功',
@@ -51,10 +62,10 @@ export default class JournalController extends BaseController {
    * @Response 200 journalGetByIdResponse success
    */
   public async getById() {
-    console.log('============', this.ctx.params);
     const { id, limit, offset } = this.ctx.request.body;
     this.ctx.validate(this.getRule('id'));
-    const resData = await this.ctx.service.journal.getById(id, this.getType(), limit, offset);
+    const type = await getType(this);
+    const resData = await this.ctx.service.journal.getById(id, type, limit, offset);
     this.success({
       code: 1,
       msg: '获取观看记录成功',
@@ -82,31 +93,16 @@ export default class JournalController extends BaseController {
   public async getByUser() {
     const { userId, limit, offset } = this.ctx.request.body;
     this.ctx.validate(this.getRule('userId'));
-    const resData = await this.ctx.service.journal.getByUser(userId, this.getType(), limit, offset);
+    const type = await getType(this);
+    const resData = await this.ctx.service.journal.getByUser(userId, type, limit, offset);
     this.success({
       code: 1,
       msg: '获取观看记录成功',
       data: resData
     });
   }
-  private async getType() {
-    const { type } = this.ctx.params;
-    if (type === 'course') {
-      return 1;
-    } else if (type === 'video') {
-      return 2;
-    } else if (type === 'article') {
-      return 3;
-    }
-  }
-
   private getRule(arg) {
-    const rule = {
-      type: {
-        type: 'number',
-        required: true
-      }
-    };
+    const rule = {};
     rule[arg] = {
       type: 'string',
       required: true

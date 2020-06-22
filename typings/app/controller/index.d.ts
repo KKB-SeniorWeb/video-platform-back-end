@@ -4,6 +4,7 @@
 import 'egg';
 import ExportArticle from '../../../app/controller/article';
 import ExportJournal from '../../../app/controller/journal';
+import ExportReply from '../../../app/controller/reply';
 import ExportSignin from '../../../app/controller/signin';
 import ExportSignup from '../../../app/controller/signup';
 import ExportUser from '../../../app/controller/user';
@@ -13,6 +14,7 @@ declare module 'egg' {
   interface IController {
     article: ExportArticle;
     journal: ExportJournal;
+    reply: ExportReply;
     signin: ExportSignin;
     signup: ExportSignup;
     user: ExportUser;

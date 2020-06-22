@@ -6,8 +6,9 @@ module.exports = function(Sequelize) {
     video_name: STRING(30),
     video_path: STRING(1000),
     video_cover: STRING(1000),
+    visitor_number: INTEGER,
+    user_id: STRING(70),
     created_at: DATE,
-    updated_at: DATE,
-    visitor_number: INTEGER
+    updated_at: DATE
   };
 };

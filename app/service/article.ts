@@ -79,7 +79,7 @@ export default class ArticleService extends Service {
     if (!res || !res.toJSON()) {
       this.ctx.throw('没有此文章');
     }
-    return res.toJSON();
+    return res ? res.toJSON() : res;
   }
   /**
    * 获取文章列表
@@ -97,6 +97,6 @@ export default class ArticleService extends Service {
       offset,
       limit
     });
-    return res.toJSON();
+    return res;
   }
 }
