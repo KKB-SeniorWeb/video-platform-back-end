@@ -34,6 +34,20 @@ export const setup = app => {
     watch_id: factory.sequence('Reply.watch_id', n => `watch_id_${n}`),
     reply: '内容'
   });
+  factory.define('journal', app.model.Journal, {
+    id: Date.now() + '_id',
+    type: 1,
+    user_id: factory.sequence('User.id', n => `user_id_${n}`),
+    start: Date.now(),
+    stop: Date.now(),
+    watch_id: factory.sequence('Journal.watch_id', n => `watch_id_${n}`)
+  });
+  factory.define('course', app.model.Course, {
+    id: Date.now() + '_id',
+    name: '教程名称',
+    path: '教程地址',
+    user_id: factory.sequence('User.id', n => `user_id_${n}`)
+  });
 };
 
 export const cleanup = async () => {
@@ -44,5 +58,7 @@ export const cleanup = async () => {
   delete factory.factories.article;
   delete factory.factories.reply;
   delete factory.factories.video;
+  delete factory.factories.journal;
+  delete factory.factories.course;
   await factory.cleanUp();
 };
