@@ -21,6 +21,19 @@ export const setup = app => {
     author_id: factory.sequence('User.id', n => `author_id_${n}`),
     hot: 0
   });
+  factory.define('video', app.model.Video, {
+    id: Date.now() + '_id',
+    video_name: factory.sequence('Video.video_name', n => `video_name_${n}`),
+    video_path: factory.sequence('Video.video_path', n => `video_path_${n}`),
+    video_cover: factory.sequence('Video.video_cover', n => `video_cover_${n}`)
+  });
+  factory.define('reply', app.model.Reply, {
+    id: Date.now() + '_id',
+    type: 2,
+    user_id: factory.sequence('User.id', n => `user_id_${n}`),
+    watch_id: factory.sequence('Reply.watch_id', n => `watch_id_${n}`),
+    reply: '内容'
+  });
 };
 
 export const cleanup = async () => {
@@ -29,5 +42,7 @@ export const cleanup = async () => {
   // 如果重复定义过的话，会抛出错误
   delete factory.factories.user;
   delete factory.factories.article;
+  delete factory.factories.reply;
+  delete factory.factories.video;
   await factory.cleanUp();
 };
