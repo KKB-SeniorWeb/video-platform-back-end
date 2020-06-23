@@ -36,11 +36,11 @@ export default class ReplyController extends BaseController {
   public async get() {
     const { id } = this.ctx.request.body;
     this.ctx.validate(this.rule());
-    const resData = await this.ctx.service.reply.get(id);
+    const result = await this.ctx.service.reply.get(id);
     this.success({
       code: 1,
       msg: '获取评论成功',
-      data: resData
+      data: result
     });
   }
   /**
@@ -59,11 +59,11 @@ export default class ReplyController extends BaseController {
     const { id, offset, limit } = this.ctx.request.body;
     this.ctx.validate(this.rule());
     const type = await getType(this);
-    const resData = await this.ctx.service.reply.getList(id, type, offset, limit);
+    const result = await this.ctx.service.reply.getList(id, type, offset, limit);
     this.success({
       code: 1,
       msg: '获取评论列表成功',
-      data: resData
+      data: result
     });
   }
   private rule() {

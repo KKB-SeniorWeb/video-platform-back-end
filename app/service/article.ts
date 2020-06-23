@@ -21,7 +21,7 @@ export default class ArticleService extends Service {
    */
 
   public async create(title, cover, describe, content, authorId): Promise<ArticleUpdateSuccessResData> {
-    const result = await this.app.model.Article.create({
+    const resData = await this.app.model.Article.create({
       id: uuidv4(),
       title,
       cover,
@@ -30,7 +30,7 @@ export default class ArticleService extends Service {
       author_id: authorId,
       hot: 0
     });
-    return result.toJSON();
+    return resData.toJSON();
   }
   /**
    * 编辑文章
@@ -52,8 +52,8 @@ export default class ArticleService extends Service {
       },
       { where: { id } }
     );
-    const res = await this.findOne(id);
-    return res;
+    const resData = await this.findOne(id);
+    return resData;
   }
   /**
    * 删除文章
@@ -61,25 +61,25 @@ export default class ArticleService extends Service {
    */
   public async delete(id) {
     await this.findOne(id);
-    const result = await this.app.model.Article.destroy({
+    const resData = await this.app.model.Article.destroy({
       where: {
         id
       }
     });
-    return result;
+    return resData;
   }
   /**
    * 获取文章
    * @param id
    */
   public async findOne(id) {
-    const res = await this.app.model.Article.findOne({
+    const resData = await this.app.model.Article.findOne({
       where: { id }
     });
-    if (!res || !res.toJSON()) {
+    if (!resData || !resData.toJSON()) {
       this.ctx.throw('没有此文章');
     }
-    return res ? res.toJSON() : res;
+    return resData ? resData.toJSON() : resData;
   }
   /**
    * 获取文章列表
@@ -92,11 +92,11 @@ export default class ArticleService extends Service {
     if (sort === 'hot') {
       field = 'hot';
     }
-    const res = await this.app.model.Article.findAll({
+    const resData = await this.app.model.Article.findAll({
       order: [[field, 'DESC']],
       offset,
       limit
     });
-    return res;
+    return resData;
   }
 }

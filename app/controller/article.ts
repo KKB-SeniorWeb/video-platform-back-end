@@ -13,11 +13,11 @@ export default class ArticleController extends BaseController {
   public async create() {
     const { title, cover, describe, content, authorId } = this.ctx.request.body;
     this.ctx.validate(this.createRule());
-    const resData = await this.ctx.service.article.create(title, cover, describe, content, authorId);
+    const result = await this.ctx.service.article.create(title, cover, describe, content, authorId);
     this.success({
       code: 1,
       msg: '新建文章成功',
-      data: resData.id
+      data: result.id
     });
   }
   /**
@@ -29,11 +29,11 @@ export default class ArticleController extends BaseController {
   public async update() {
     const { id, title, cover, describe, content, authorId } = this.ctx.request.body;
     this.ctx.validate({ ...this.rule(), ...this.createRule() });
-    const resData = await this.ctx.service.article.update(id, title, cover, describe, content, authorId);
+    const result = await this.ctx.service.article.update(id, title, cover, describe, content, authorId);
     this.success({
       code: 1,
       msg: '更新文章成功',
-      data: resData.id
+      data: result.id
     });
   }
   /**
@@ -60,11 +60,11 @@ export default class ArticleController extends BaseController {
   public async get() {
     const { id } = this.ctx.request.body;
     this.ctx.validate(this.rule());
-    const resData = await this.ctx.service.article.findOne(id);
+    const result = await this.ctx.service.article.findOne(id);
     this.success({
       code: 1,
       msg: '获取文章成功',
-      data: resData
+      data: result
     });
   }
   /**
@@ -76,11 +76,11 @@ export default class ArticleController extends BaseController {
   public async getList() {
     const { offset, limit, sort = 'time' } = this.ctx.request.body;
 
-    const resData = await this.ctx.service.article.findAll(offset, limit, sort);
+    const result = await this.ctx.service.article.findAll(offset, limit, sort);
     this.success({
       code: 1,
       msg: '获取文章列表成功',
-      data: resData
+      data: result
     });
   }
   private rule() {

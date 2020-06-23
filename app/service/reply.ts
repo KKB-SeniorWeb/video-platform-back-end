@@ -33,17 +33,17 @@ export default class ReplyService extends Service {
    * @param id
    */
   public async get(id) {
-    const result = await this.findOneWith(this.app.model.Reply, id);
-    const userId = await result.user_id;
+    const resData = await this.findOneWith(this.app.model.Reply, id);
+    const userId = await resData.user_id;
     const user = await this.findOneWith(this.app.model.User, userId);
-    const type = await result.type;
+    const type = await resData.type;
     let watch;
     if (type === 2) {
-      watch = await this.findOneWith(this.app.model.Article, result.watch_id);
+      watch = await this.findOneWith(this.app.model.Article, resData.watch_id);
     } else if (type === 3) {
-      watch = await this.findOneWith(this.app.model.Video, result.watch_id);
+      watch = await this.findOneWith(this.app.model.Video, resData.watch_id);
     }
-    return { user, watch, result };
+    return { user, watch, resData };
   }
   /**
    * 获取文章评论列表
