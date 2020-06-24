@@ -7,6 +7,7 @@ import ExportJournal from '../../../app/controller/journal';
 import ExportReply from '../../../app/controller/reply';
 import ExportSignin from '../../../app/controller/signin';
 import ExportSignup from '../../../app/controller/signup';
+import ExportTeacher from '../../../app/controller/teacher';
 import ExportUser from '../../../app/controller/user';
 import ExportVideo from '../../../app/controller/video';
 
@@ -17,6 +18,7 @@ declare module 'egg' {
     reply: ExportReply;
     signin: ExportSignin;
     signup: ExportSignup;
+    teacher: ExportTeacher;
     user: ExportUser;
     video: ExportVideo;
   }

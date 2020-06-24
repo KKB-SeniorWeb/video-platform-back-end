@@ -6,6 +6,7 @@ import ExportArticle from '../../../app/model/article';
 import ExportCourse from '../../../app/model/course';
 import ExportJournal from '../../../app/model/journal';
 import ExportReply from '../../../app/model/reply';
+import ExportTeacher from '../../../app/model/teacher';
 import ExportUser from '../../../app/model/user';
 import ExportVideo from '../../../app/model/video';
 
@@ -15,6 +16,7 @@ declare module 'egg' {
     Course: ReturnType<typeof ExportCourse>;
     Journal: ReturnType<typeof ExportJournal>;
     Reply: ReturnType<typeof ExportReply>;
+    Teacher: ReturnType<typeof ExportTeacher>;
     User: ReturnType<typeof ExportUser>;
     Video: ReturnType<typeof ExportVideo>;
   }

@@ -48,6 +48,14 @@ export const setup = app => {
     path: '教程地址',
     user_id: factory.sequence('User.id', n => `user_id_${n}`)
   });
+  factory.define('teacher', app.model.Teacher, {
+    id: Date.now() + '_id',
+    name: '姓名',
+    photo: '照片地址',
+    describe: '描述',
+    gender: '未知',
+    age: '未知'
+  });
 };
 
 export const cleanup = async () => {
@@ -60,5 +68,6 @@ export const cleanup = async () => {
   delete factory.factories.video;
   delete factory.factories.journal;
   delete factory.factories.course;
+  delete factory.factories.teacher;
   await factory.cleanUp();
 };

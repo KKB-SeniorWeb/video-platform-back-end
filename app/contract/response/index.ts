@@ -211,5 +211,42 @@ module.exports = {
         }
       ]
     }
+  },
+  teacherAddResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '添加讲师成功' }
+  },
+  teacherDeleteResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '删除讲师成功' }
+  },
+  teacherUpdateResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '更新讲师成功' }
+  },
+  teacherGetResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '更新讲师成功' },
+    data: {
+      type: 'object',
+      example: [
+        {
+          id: 'id',
+          name: 'name',
+          photo: '照片地址',
+          describe: '描述',
+          age: 'age',
+          gender: 'gender'
+        },
+        {
+          id: 'id',
+          name: 'name',
+          photo: '照片地址',
+          describe: '描述',
+          age: 'age',
+          gender: 'gender'
+        }
+      ]
+    }
   }
 };

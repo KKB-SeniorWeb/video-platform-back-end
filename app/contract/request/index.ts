@@ -73,5 +73,23 @@ module.exports = {
     id: { type: 'string', required: true, example: '评论的（文章|视频）id' },
     offset: { type: 'number', required: false, example: 0 },
     limit: { type: 'number', required: false, example: 10 }
+  },
+  teacherAddRequest: {
+    name: { type: 'string', required: true, example: '姓名' },
+    photo: { type: 'string', required: true, example: '照片' },
+    describe: { type: 'string', required: true, example: '描述' },
+    gender: { type: 'string', required: false, example: '性别' },
+    age: { type: 'number', required: false, example: '18' }
+  },
+  teacherDeleteRequest: {
+    id: { type: 'string', required: true, example: 'id' }
+  },
+  teacherUpdateRequest: {
+    id: { type: 'string', required: true, example: 'id' },
+    name: { type: 'string', required: true, example: '姓名' },
+    photo: { type: 'string', required: true, example: '照片' },
+    describe: { type: 'string', required: true, example: '描述' },
+    gender: { type: 'string', required: false, example: '性别' },
+    age: { type: 'number', required: false, example: '18' }
   }
 };

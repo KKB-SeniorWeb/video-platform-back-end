@@ -8,6 +8,7 @@ import ExportJwt from '../../../app/service/jwt';
 import ExportReply from '../../../app/service/reply';
 import ExportSignin from '../../../app/service/signin';
 import ExportSignup from '../../../app/service/signup';
+import ExportTeacher from '../../../app/service/teacher';
 import ExportUser from '../../../app/service/user';
 import ExportVideo from '../../../app/service/video';
 
@@ -19,6 +20,7 @@ declare module 'egg' {
     reply: ExportReply;
     signin: ExportSignin;
     signup: ExportSignup;
+    teacher: ExportTeacher;
     user: ExportUser;
     video: ExportVideo;
   }

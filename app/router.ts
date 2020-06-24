@@ -16,7 +16,11 @@ import {
   ARTICLE_LIST,
   REPLY_PUSH,
   REPLY_ONE,
-  REPLY_LIST
+  REPLY_LIST,
+  TEACHER_ADD,
+  TEACHER_DELETE,
+  TEACHER_UPDATE,
+  TEACHER_GET
 } from './const/index';
 
 function signRouter(app) {
@@ -53,7 +57,14 @@ function replyRouter(app) {
   router.get(REPLY_ONE, app.jwt, controller.reply.get);
   router.get(REPLY_LIST + '/:type', app.jwt, controller.reply.getList);
 }
-
+function teacherRouter(app) {
+  const { controller, router, middleware } = app;
+  const adminAndMasterRequired = middleware.permissionsValidation(['admin', 'master']);
+  router.post(TEACHER_ADD, app.jwt, adminAndMasterRequired, controller.teacher.add);
+  router.delete(TEACHER_DELETE, app.jwt, adminAndMasterRequired, controller.teacher.delete);
+  router.post(TEACHER_UPDATE, app.jwt, adminAndMasterRequired, controller.teacher.update);
+  router.get(TEACHER_GET, app.jwt, adminAndMasterRequired, controller.teacher.get);
+}
 function userRouter(app) {
   const { controller, router, middleware } = app;
   const adminAndMasterRequired = middleware.permissionsValidation(['admin', 'master']);
@@ -77,4 +88,5 @@ export default (app: Application) => {
   userRouter(app);
   articleRouter(app);
   replyRouter(app);
+  teacherRouter(app);
 };

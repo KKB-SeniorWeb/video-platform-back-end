@@ -15,3 +15,7 @@ export const ARTICLE_LIST = '/article/get/list';
 export const REPLY_PUSH = '/reply/push';
 export const REPLY_ONE = '/reply/get';
 export const REPLY_LIST = '/reply/get/list';
+export const TEACHER_ADD = '/teacher/add';
+export const TEACHER_DELETE = '/teacher/delete';
+export const TEACHER_UPDATE = '/teacher/update';
+export const TEACHER_GET = '/teacher/get';

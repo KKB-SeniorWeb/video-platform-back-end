@@ -15,5 +15,9 @@ export {
   ARTICLE_LIST,
   REPLY_PUSH,
   REPLY_ONE,
-  REPLY_LIST
+  REPLY_LIST,
+  TEACHER_ADD,
+  TEACHER_DELETE,
+  TEACHER_UPDATE,
+  TEACHER_GET
 } from './router.const';
