@@ -68,7 +68,8 @@ describe('test/app/service/article.test.ts', () => {
         };
       });
       const res = await ctx.service.teacher.delete('123456');
-      assert(res);
+
+      assert(typeof res === 'number');
     });
   });
   describe('/teacher/update  更新讲师', () => {
