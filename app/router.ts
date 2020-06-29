@@ -20,8 +20,9 @@ import {
   TEACHER_ADD,
   TEACHER_DELETE,
   TEACHER_UPDATE,
-  TEACHER_GET
-} from './const/index';
+  TEACHER_GET,
+  COURSE
+} from './const';
 
 function signRouter(app) {
   const { controller, router } = app;
@@ -81,6 +82,12 @@ function userRouter(app) {
   router.patch(`${USER}/:id`, app.jwt, controller.user.update);
 }
 
+function courseRouter(app) {
+  const { controller, router } = app;
+  router.get(COURSE, controller.course.findAll);
+  router.post(COURSE, controller.course.add);
+}
+
 export default (app: Application) => {
   signRouter(app);
   videoRouter(app);
@@ -89,4 +96,5 @@ export default (app: Application) => {
   articleRouter(app);
   replyRouter(app);
   teacherRouter(app);
+  courseRouter(app);
 };

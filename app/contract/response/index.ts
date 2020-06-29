@@ -248,5 +248,84 @@ module.exports = {
         }
       ]
     }
+  },
+  courseFindAllResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '新建文章成功' },
+    data: {
+      type: 'object',
+      itemType: 'object',
+      example: [
+        {
+          id: '教程id',
+          course: '教程名称',
+          course_cover: '教程的封面',
+          course_describe: '教程描述',
+          watch_num: '教程中观看人数',
+          course_type_id: '教程分类',
+          course_videos: [
+            {
+              id: '视频id',
+              index: '视频在教程中的顺序',
+              video_path: '视频地址',
+              video_cover: '视频封面',
+              watch_num: '视频观看人数',
+              reply_list: [
+                {
+                  id: '评论id',
+                  replier: {
+                    nickname: '评论人昵称',
+                    avatar: '评论人头像'
+                  },
+                  reply_content: '评论内容：要支持markdown',
+                  created_at: '评论时间',
+                  reply_id: '回复的哪篇评论的id'
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  },
+  courseGetByIdResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '新建文章成功' },
+    data: {
+      type: 'object',
+      example: {
+        id: '教程id',
+        course: '教程名称',
+        course_cover: '教程的封面',
+        course_describe: '教程描述',
+        watch_num: '教程中观看人数',
+        course_type_id: '教程分类',
+        course_videos: [
+          {
+            id: '视频id',
+            index: '视频在教程中的顺序',
+            video_path: '视频地址',
+            video_cover: '视频封面',
+            watch_num: '视频观看人数',
+            reply_list: [
+              {
+                id: '评论id',
+                replier: {
+                  nickname: '评论人昵称',
+                  avatar: '评论人头像'
+                },
+                reply_content: '评论内容：要支持markdown',
+                created_at: '评论时间',
+                reply_id: '回复的哪篇评论的id'
+              }
+            ]
+          }
+        ]
+      }
+    }
+  },
+  courseCreateResponse: {
+    code: { type: 'number', example: 1 },
+    msg: { type: 'string', example: '添加教程成功' }
   }
 };

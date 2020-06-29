@@ -13,7 +13,7 @@ export default {
     this.setResponseData({ data, code, msg });
   },
 
-  setResponseData(resData: ResponseData) {
-    (this as any).ctx.body = resData;
+  setResponseData(this: any, resData: ResponseData) {
+    this.ctx.body = resData;
   }
 };

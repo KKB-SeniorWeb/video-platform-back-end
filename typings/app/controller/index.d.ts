@@ -1,8 +1,9 @@
-// This file is created by egg-ts-helper@1.25.6
+// This file is created by egg-ts-helper@1.25.8
 // Do not modify this file!!!!!!!!!
 
 import 'egg';
 import ExportArticle from '../../../app/controller/article';
+import ExportCourse from '../../../app/controller/course';
 import ExportJournal from '../../../app/controller/journal';
 import ExportReply from '../../../app/controller/reply';
 import ExportSignin from '../../../app/controller/signin';
@@ -14,6 +15,7 @@ import ExportVideo from '../../../app/controller/video';
 declare module 'egg' {
   interface IController {
     article: ExportArticle;
+    course: ExportCourse;
     journal: ExportJournal;
     reply: ExportReply;
     signin: ExportSignin;

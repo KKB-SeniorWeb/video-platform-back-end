@@ -19,5 +19,6 @@ export {
   TEACHER_ADD,
   TEACHER_DELETE,
   TEACHER_UPDATE,
-  TEACHER_GET
+  TEACHER_GET,
+  COURSE
 } from './router.const';

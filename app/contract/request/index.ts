@@ -91,5 +91,30 @@ module.exports = {
     describe: { type: 'string', required: true, example: '描述' },
     gender: { type: 'string', required: false, example: '性别' },
     age: { type: 'number', required: false, example: '18' }
+  },
+  courseGetByIdRequest: {
+    id: { type: 'string', required: true, example: '教程id' }
+  },
+  courseFindAllRequest: {
+    sort: { type: 'string', required: false, example: '教程排序方式: sort | time' },
+    limit: { type: 'string', required: false, example: '每页多少条: 20' },
+    page: { type: 'string', required: false, example: '第几页: 1' },
+    type: { type: 'string', required: false, example: '返回对应分类下教程: all' }
+  },
+  courseCreateRequest: {
+    course: { type: 'string', required: true, example: '' },
+    course_type_id: { type: 'string', required: true, example: '' },
+    course_cover: { type: 'string', required: true, example: '' },
+    course_describe: { type: 'string', required: true, example: '' },
+    course_videos: {
+      type: 'object',
+      itemType: 'object',
+      example: [
+        {
+          id: 'id',
+          index: 'index'
+        }
+      ]
+    }
   }
 };

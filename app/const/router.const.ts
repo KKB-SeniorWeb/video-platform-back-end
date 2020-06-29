@@ -19,3 +19,4 @@ export const TEACHER_ADD = '/teacher/add';
 export const TEACHER_DELETE = '/teacher/delete';
 export const TEACHER_UPDATE = '/teacher/update';
 export const TEACHER_GET = '/teacher/get';
+export const COURSE = '/course';

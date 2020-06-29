@@ -10,6 +10,7 @@ export default class ReplyService extends Service {
    */
   /**
    * 发表文章评论
+   * @param type
    * @param userId
    * @param watchId
    * @param reply
@@ -54,6 +55,7 @@ export default class ReplyService extends Service {
   /**
    * 获取视频评论列表
    * @param id
+   * @param type
    * @param offset
    * @param limit
    */
