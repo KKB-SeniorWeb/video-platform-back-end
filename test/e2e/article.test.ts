@@ -75,7 +75,6 @@ describe('article e2e', () => {
       .get('/article/get')
       .set('Authorization', 'Bearer ' + token)
       .send({ id: articleInfo.id });
-
     assert(result.body.code === 1);
     assert(result.body.msg === '获取文章成功');
   });

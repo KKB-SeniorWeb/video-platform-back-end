@@ -34,8 +34,8 @@ export default class ReplyController extends BaseController {
    * @Response 200 replyGetResponse success
    */
   public async get() {
-    const { id } = this.ctx.request.body;
-    this.ctx.validate(this.rule());
+    const { id } = this.ctx.query;
+    this.ctx.validate(this.rule(), this.ctx.query);
     const result = await this.ctx.service.reply.get(id);
     this.success({
       code: 1,
@@ -56,8 +56,8 @@ export default class ReplyController extends BaseController {
    * @Response 200 replyGetListResponse success
    */
   public async getList() {
-    const { id, offset, limit } = this.ctx.request.body;
-    this.ctx.validate(this.rule());
+    const { id, offset, limit } = this.ctx.query;
+    this.ctx.validate(this.rule(), this.ctx.query);
     const type = await getType(this);
     const result = await this.ctx.service.reply.getList(id, type, offset, limit);
     this.success({
