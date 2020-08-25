@@ -75,7 +75,7 @@ describe('reply e2e', () => {
       .httpRequest()
       .get('/reply/get')
       .set('Authorization', 'Bearer ' + token)
-      .send({ id: info.id });
+      .query({ id: info.id });
     // then
     assert(result.body.code === 1);
     assert(result.body.msg === '获取评论成功');
@@ -111,7 +111,7 @@ describe('reply e2e', () => {
       .httpRequest()
       .get('/reply/get/list/article')
       .set('Authorization', 'Bearer ' + token)
-      .send(param);
+      .query(param);
     // then
     assert(result.body.code === 1);
     assert(result.body.msg === '获取评论列表成功');
@@ -147,7 +147,7 @@ describe('reply e2e', () => {
       .httpRequest()
       .get('/reply/get/list/video')
       .set('Authorization', 'Bearer ' + token)
-      .send(param);
+      .query(param);
     // then
     assert(result.body.code === 1);
     assert(result.body.msg === '获取评论列表成功');

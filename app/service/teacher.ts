@@ -50,7 +50,7 @@ export default class TeacherService extends Service {
     return resData;
   }
   public async get() {
-    const resData = await this.app.model.Teacher.findAll({
+    const resData = await this.app.model.Teacher.findAndCountAll({
       order: [['name', 'DESC']]
     });
     return resData;

@@ -17,10 +17,10 @@ export default class JouralService extends Service {
    * @param offset
    */
   public async getById(id, type, limit, offset) {
-    const resData = await this.app.model.Journal.findAll({
+    const resData = await this.app.model.Journal.findAndCountAll({
       where: { watch_id: id, type },
-      limit,
-      offset
+      limit: Number(limit),
+      offset: Number(offset)
     });
     return resData;
   }
@@ -31,13 +31,13 @@ export default class JouralService extends Service {
    * @param offset
    */
   public async getByUser(userId, type, limit, offset) {
-    const resData = await this.app.model.Journal.findAll({
+    const resData = await this.app.model.Journal.findAndCountAll({
       where: {
         user_id: userId,
         type
       },
-      limit,
-      offset
+      limit: Number(limit),
+      offset: Number(offset)
     });
 
     return resData;
