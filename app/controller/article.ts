@@ -75,7 +75,6 @@ export default class ArticleController extends BaseController {
    */
   public async getList() {
     const { offset, limit, sort = 'time' } = this.ctx.query;
-
     const result = await this.ctx.service.article.findAll(offset, limit, sort);
     this.success({
       code: 1,
