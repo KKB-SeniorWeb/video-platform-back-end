@@ -1,6 +1,10 @@
 import { EggPlugin } from 'egg';
 
 const plugin: EggPlugin = {
+  cors: {
+    enable: true,
+    package: 'egg-cors'
+  },
   swaggerdoc: {
     enable: true,
     package: 'egg-swagger-doc'

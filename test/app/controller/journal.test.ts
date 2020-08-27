@@ -43,7 +43,7 @@ describe('test/app/controller/journal.test.js', () => {
         const result = await app
           .httpRequest()
           .get(apiName)
-          .send(getByUserParmas({ userId: '' }));
+          .query(getByUserParmas({ userId: '' }));
         assert(result.body.code === 0);
       });
     });
@@ -54,7 +54,7 @@ describe('test/app/controller/journal.test.js', () => {
       const result = await app
         .httpRequest()
         .get(apiName)
-        .send(getByUserParmas());
+        .query(getByUserParmas());
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');
@@ -68,7 +68,7 @@ describe('test/app/controller/journal.test.js', () => {
         const result = await app
           .httpRequest()
           .get(apiName)
-          .send(getByIdParmas({ id: '' }));
+          .query(getByIdParmas({ id: '' }));
 
         assert(result.body.code === 0);
       });
@@ -80,7 +80,7 @@ describe('test/app/controller/journal.test.js', () => {
       const result = await app
         .httpRequest()
         .get(apiName)
-        .send(getByIdParmas());
+        .query(getByIdParmas());
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');

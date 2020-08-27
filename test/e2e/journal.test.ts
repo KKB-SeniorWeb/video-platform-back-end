@@ -75,7 +75,7 @@ describe('journal e2e', () => {
         .httpRequest()
         .get('/journal/id/course')
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: info.watch_id, offset: 0, limit: 20 });
+        .query({ id: info.watch_id, offset: 0, limit: 20 });
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');
@@ -94,7 +94,7 @@ describe('journal e2e', () => {
         .httpRequest()
         .get('/journal/id/course')
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: info.watch_id, offset: 0, limit: 20 });
+        .query({ id: info.watch_id, offset: 0, limit: 20 });
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');
@@ -113,7 +113,7 @@ describe('journal e2e', () => {
         .httpRequest()
         .get('/journal/id/course')
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: info.watch_id, offset: 0, limit: 20 });
+        .query({ id: info.watch_id, offset: 0, limit: 20 });
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');
@@ -134,7 +134,7 @@ describe('journal e2e', () => {
         .httpRequest()
         .get('/journal/id/course')
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: info.watch_id, userId: info.user_id, offset: 0, limit: 20 });
+        .query({ id: info.watch_id, userId: info.user_id, offset: 0, limit: 20 });
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');
@@ -153,7 +153,7 @@ describe('journal e2e', () => {
         .httpRequest()
         .get('/journal/id/article')
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: info.watch_id, userId: info.user_id, offset: 0, limit: 20 });
+        .query({ id: info.watch_id, userId: info.user_id, offset: 0, limit: 20 });
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');
@@ -172,7 +172,7 @@ describe('journal e2e', () => {
         .httpRequest()
         .get('/journal/id/video')
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: info.watch_id, userId: info.user_id, offset: 0, limit: 20 });
+        .query({ id: info.watch_id, userId: info.user_id, offset: 0, limit: 20 });
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取观看记录成功');

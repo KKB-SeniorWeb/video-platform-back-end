@@ -58,8 +58,8 @@ export default class ArticleController extends BaseController {
    * @Response 200 articleGetResponse success
    */
   public async get() {
-    const { id } = this.ctx.request.body;
-    this.ctx.validate(this.rule());
+    const { id } = this.ctx.query;
+    this.ctx.validate(this.rule(), this.ctx.query);
     const result = await this.ctx.service.article.findOne(id);
     this.success({
       code: 1,
@@ -74,7 +74,7 @@ export default class ArticleController extends BaseController {
    * @Response 200 articleGetListResponse success
    */
   public async getList() {
-    const { offset, limit, sort = 'time' } = this.ctx.request.body;
+    const { offset, limit, sort = 'time' } = this.ctx.query;
 
     const result = await this.ctx.service.article.findAll(offset, limit, sort);
     this.success({

@@ -90,7 +90,7 @@ function TestGet(resources: string) {
       .httpRequest()
       .get(apiName)
       .set('Authorization', 'Bearer ' + token)
-      .send({ id: '评论id' });
+      .query({ id: '评论id' });
 
     assert(result.body.code === 1);
     assert(result.body.msg === '获取评论列表成功');
@@ -119,7 +119,7 @@ describe('test/app/controller/reply.test.ts', () => {
           .httpRequest()
           .get(apiName)
           .set('Authorization', 'Bearer ' + token)
-          .send({ id: '' });
+          .query({ id: '' });
 
         assert(result.body.code === 0);
       });
@@ -132,7 +132,7 @@ describe('test/app/controller/reply.test.ts', () => {
         .httpRequest()
         .get(apiName)
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: '评论id' });
+        .query({ id: '评论id' });
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取评论成功');

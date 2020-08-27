@@ -92,7 +92,7 @@ export default class ArticleService extends Service {
     if (sort === 'hot') {
       field = 'hot';
     }
-    const resData = await this.app.model.Article.findAll({
+    const resData = await this.app.model.Article.findAndCountAll({
       order: [[field, 'DESC']],
       offset,
       limit

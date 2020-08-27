@@ -39,7 +39,7 @@ async function TestGetList(ctx, Model, resourcse) {
       }
     };
   });
-  mock(app.model.Reply, 'findAll', () => {
+  mock(app.model.Reply, 'findAndCountAll', () => {
     return {
       toJSON() {
         return [];
@@ -91,7 +91,7 @@ describe('test/app/service/reply.test.ts', () => {
           }
         };
       });
-      mock(app.model.Reply, 'findAll', () => {
+      mock(app.model.Reply, 'findAndCountAll', () => {
         return {
           toJSON() {
             return [];

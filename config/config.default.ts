@@ -23,6 +23,11 @@ export default (appInfo: EggAppInfo) => {
   const bizConfig = {
     sourceUrl: `https://github.com/eggjs/examples/tree/master/${appInfo.name}`
   };
+  // 匹配规则  域名+端口  *则为全匹配
+  config.cors = {
+    origin: '*',
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH'
+  };
 
   const swaggerdoc = {
     dirScanner: './app/controller',

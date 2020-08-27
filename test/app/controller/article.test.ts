@@ -176,11 +176,12 @@ describe('test/app/controller/article.test.ts', () => {
       app.mockService('article', 'findOne', () => {
         return true;
       });
+
       const result = await app
         .httpRequest()
         .get(ARTICLE_GET)
         .set('Authorization', 'Bearer ' + token)
-        .send({ id: '已有文章id' });
+        .query({ id: '已有文章id' });
 
       assert(result.body.code === 1);
       assert(result.body.msg === '获取文章成功');

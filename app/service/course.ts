@@ -28,7 +28,7 @@ export default class CourseService extends Service {
    */
   async findAll(options: IOptions) {
     const { ctx } = this;
-    const res = await ctx.model.Course.findAll(options);
+    const res = await ctx.model.Course.findAndCountAll(options);
     return res;
   }
 

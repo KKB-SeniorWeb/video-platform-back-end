@@ -61,7 +61,7 @@ export default class ReplyService extends Service {
    */
   public async getList(id, type, offset, limit) {
     const resData = await this.getData(id, type);
-    const result = await this.app.model.Reply.findAll({
+    const result = await this.app.model.Reply.findAndCountAll({
       where: { watch_id: id },
       offset,
       limit

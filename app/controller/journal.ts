@@ -62,8 +62,8 @@ export default class JournalController extends BaseController {
    * @Response 200 journalGetByIdResponse success
    */
   public async getById() {
-    const { id, limit, offset } = this.ctx.request.body;
-    this.ctx.validate(this.getRule('id'));
+    const { id, limit, offset } = this.ctx.query;
+    this.ctx.validate(this.getRule('id'), this.ctx.query);
     const type = await getType(this);
     const result = await this.ctx.service.journal.getById(id, type, limit, offset);
     this.success({
@@ -91,8 +91,8 @@ export default class JournalController extends BaseController {
    * @Response 200 journalGetByUserResponse success
    */
   public async getByUser() {
-    const { userId, limit, offset } = this.ctx.request.body;
-    this.ctx.validate(this.getRule('userId'));
+    const { userId, limit, offset } = this.ctx.query;
+    this.ctx.validate(this.getRule('userId'), this.ctx.query);
     const type = await getType(this);
     const result = await this.ctx.service.journal.getByUser(userId, type, limit, offset);
     this.success({
