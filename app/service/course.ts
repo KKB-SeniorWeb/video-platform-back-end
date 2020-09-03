@@ -27,8 +27,7 @@ export default class CourseService extends Service {
    * @param options
    */
   async findAll(options: IOptions) {
-    const { ctx } = this;
-    const res = await ctx.model.Course.findAndCountAll(options);
+    const res = await this.app.model.Course.findAndCountAll(options);
     return res;
   }
 
@@ -36,14 +35,14 @@ export default class CourseService extends Service {
     const { ctx } = this;
     let res;
     try {
-      res = await ctx.model.Course.create(
+      res = await this.app.model.Course.create(
         CourseService.generateCourseTable({ course, course_type_id, course_cover, course_describe })
       );
     } catch (e) {
       ctx.throw(e, 400);
     }
     for (let i = 0; i < course_videos?.length; i++) {
-      await ctx.model.CourseVideo.create({
+      await this.app.model.CourseVideo.create({
         id: uuidv4(),
         course_id: res.id,
         video_id: course_videos[i].id

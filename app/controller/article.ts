@@ -75,8 +75,11 @@ export default class ArticleController extends BaseController {
    */
   public async getList() {
     const { offset, limit, sort = 'time' } = this.ctx.query;
-
-    const result = await this.ctx.service.article.findAll(offset, limit, sort);
+    const result = await this.ctx.service.article.findAll(
+      offset ? Number(offset) : undefined,
+      limit ? Number(limit) : undefined,
+      sort
+    );
     this.success({
       code: 1,
       msg: '获取文章列表成功',
