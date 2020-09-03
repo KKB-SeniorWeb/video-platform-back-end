@@ -28,9 +28,29 @@ export default class CourseController extends BaseController {
     };
     type === 'all' && delete options.where;
     const res = await ctx.service.course.findAll(options);
-    return res;
+    this.success({
+      code: 1,
+      msg: '获取教程成功',
+      data: res
+    });
   }
+  /**
+   * @Summary 添加教程
+   * @Router POST /course
+   * @Request body courseCreateRequest *body
+   * @Response 200 courseCreateResponse success
+   */
 
+  async add() {
+    const { ctx } = this;
+    const { course, course_type_id, course_cover, course_describe, course_videos } = ctx.request.body;
+    ctx.validate(CourseController.rule);
+    await ctx.service.course.add({ course, course_type_id, course_cover, course_describe, course_videos });
+    this.success({
+      code: 1,
+      msg: '添加教程成功！'
+    });
+  }
   private static rule = {
     course: {
       type: 'string',
@@ -49,21 +69,4 @@ export default class CourseController extends BaseController {
       required: true
     }
   };
-
-  /**
-   * @Summary 添加教程
-   * @Router POST /course
-   * @Request body courseCreateRequest *body
-   * @Response 200 courseCreateResponse success
-   */
-  async add() {
-    const { ctx } = this;
-    const { course, course_type_id, course_cover, course_describe, course_videos } = ctx.request.body;
-    ctx.validate(CourseController.rule);
-    await ctx.service.course.add({ course, course_type_id, course_cover, course_describe, course_videos });
-    ctx.helper.success({
-      code: 1,
-      msg: '添加教程成功！'
-    });
-  }
 }
