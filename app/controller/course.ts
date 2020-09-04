@@ -17,14 +17,13 @@ export default class CourseController extends BaseController {
   async findAll() {
     const { ctx } = this;
     const { sort = 'time', limit, page = 1, type = 'all' } = ctx.query;
-    console.log('------', ctx.query);
     const options = {
       where: {
         type
       },
       order: [[CourseController.isTime(sort) ? 'created_at' : 'watch_num', 'DESC']],
-      limit: Number(limit),
-      offset: Number((page - 1) * limit)
+      limit: limit ? Number(limit) : null,
+      offset: limit ? Number((page - 1) * limit) : null
     };
     type === 'all' && delete options.where;
     const res = await ctx.service.course.findAll(options);

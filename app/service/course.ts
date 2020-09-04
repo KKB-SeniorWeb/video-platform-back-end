@@ -6,8 +6,8 @@ interface IOptions {
     type: string;
   };
   order: string[][];
-  limit: number;
-  offset: number;
+  limit: number | null;
+  offset: number | null;
 }
 
 interface ICourseInfo {
